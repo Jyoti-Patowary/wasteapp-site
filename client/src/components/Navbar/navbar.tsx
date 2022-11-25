@@ -15,6 +15,8 @@ import DrawerNav from "./drawerNav";
 import { useNavigate } from "react-router-dom";
 import SignUp from "../Buttons/SignUp";
 import Login from "../Buttons/Login";
+import AdminLogin from "../UsersLogin/adminLogin";
+import LoginModal from "../Modal/modal";
 
 export default function Navbar() {
   // const login = React.useRef(null)
@@ -28,7 +30,7 @@ export default function Navbar() {
 
   return (
     <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed" sx={{ bgcolor: "black" }}>
+      <AppBar position="fixed" sx={{ bgcolor: "gray" }}>
         <Toolbar sx={{ p: "15px" }}>
           <FaPiedPiperAlt size={50} style={{ fontSize: "1.1rem" }} />
           {isMatch ? (
@@ -41,9 +43,9 @@ export default function Navbar() {
           ) : (
             <>
               WasteApp
-              <Button sx={{ marginLeft: "auto" }} variant="contained">
-                <Login />
-              </Button>
+              <div style={{ marginLeft: "auto" }}>
+                <LoginModal />
+              </div>
               <Button sx={{ marginLeft: "10px" }} variant="contained">
                 <SignUp />
               </Button>

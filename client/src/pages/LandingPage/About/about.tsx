@@ -6,8 +6,8 @@ import styled from "styled-components";
 const BoxA = styled.div`
   background-color: yellow;
   padding: 1rem;
-  height: 4rem;
-  margin: 20rem;
+  height: 48rem;
+  // margin: 20rem;
 `;
 
 const HeadingA = styled.div`
@@ -19,14 +19,12 @@ export interface IAboutProps {}
 const About: React.FC<IAboutProps> = (props) => {
   return (
     <div>
-      <Grid container xs={12} sx={{ height: "100vh" }}>
+      <Grid container xs={12}>
         <Grid item xs={12} md={6}>
-          <Box sx={{ bgcolor: "black" }}>
-            <BoxA></BoxA>
-          </Box>
+          <BoxA>sadasasa</BoxA>
         </Grid>
         <Grid item xs={12} md={6}>
-          <Box sx={{ bgcolor: "blue" }}>sasa</Box>
+          <Box sx={{ bgcolor: "blue", height: "50rem" }}>sasa</Box>
         </Grid>
       </Grid>
     </div>
