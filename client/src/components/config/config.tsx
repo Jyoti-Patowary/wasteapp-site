@@ -4,7 +4,7 @@ export const config = {
   baseURL: "http://localhost:4000",
 };
 
-export const getUserData = async (id: String, role: String) => {
+export const createOrder = async (id: String, role: String) => {
   console.log(id);
   let url = `${config.baseURL}/customer/${id}`;
   try {
@@ -18,3 +18,5 @@ export const getUserData = async (id: String, role: String) => {
     console.log(err);
   }
 };
+
+// export const createOrder = async () => {};

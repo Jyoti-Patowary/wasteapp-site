@@ -2,6 +2,7 @@ import { Box, Typography, TextField, Button } from "@mui/material";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
+import { createOrder } from "../../../../components/config/config";
 
 const Main = styled.div`
   max-width: 2200px;
@@ -22,39 +23,74 @@ display: flex;
 }
 `;
 
-// interface Itypes {
-//   customerID : any;
-//   address: String;
-//   date: any;
-//   phoneNumber: Number;
-// }
+interface IFormInputValues {
+  address: string;
+  phoneNumber: string;
+  date: any;
+  // status: any
+}
+
+function getOrderValues() {
+  const storedValues = localStorage.getItem("TextField");
+  if (!storedValues)
+    return {
+      address: "",
+      phoneNumber: "",
+      date: "",
+    };
+  return JSON.parse(storedValues);
+}
 
 const Home = () => {
   const [customerdata, setCustomerdata] = useState<any>([]);
   const [updatedAddress, setUpdatedAddress] = useState("");
   const [phoneNumber, setPhoneNumber] = useState<any>("");
+  const [values, setValues] = useState<IFormInputValues>(getOrderValues);
 
-  const fetchCustomerData = () => {
-    return axios
-      .get("http://localhost:4000/customer/637f92371ed043c7fd1a7438")
-      .then((Response) => setCustomerdata(Response.data));
-  };
+  // const fetchCustomerData = () => {
+  //   return axios
+  //     .get("http://localhost:4000/customer/637f92371ed043c7fd1a7438")
+  //     .then((Response) => setCustomerdata(Response.data));
+  // };
 
   const postOrder = async () => {
     console.log("clicked");
+
+    const { address, phoneNumber, date } = values;
+
+    const url = "http://localhost:4000/customer/637f92371ed043c7fd1a7438";
+    console.log(url);
     const payload = {
-      customerID: customerdata._id,
+      // customerID: customerdata._id,
       address: updatedAddress,
-      date: new Date(),
       phoneNumber: phoneNumber,
     };
-    const res = await createOrder(payload);
+    // const res = await createOrder(payload, role);
+    try {
+      const data = await axios.post(url, payload);
+      if (data.status === 200) {
+        console.log(data.data);
+      }
+    } catch (error) {
+      // @ts-ignore
+      console.log(error.response.data.error);
+    }
   };
 
   useEffect(() => {
-    fetchCustomerData();
-    console.log("Checking data....");
-  }, []);
+    localStorage.setItem("TextField", JSON.stringify(values));
+  }, [values]);
+
+  function handleChange(
+    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+  ) {
+    console.log(`Typed => ${event.target.value}`);
+
+    setValues((previousValues) => ({
+      ...previousValues,
+      [event.target.name]: event.target.value,
+    }));
+  }
 
   return (
     <Main>
@@ -71,19 +107,15 @@ const Home = () => {
               variant="outlined"
               label="address"
               sx={{ m: "2rem" }}
-              value={updatedAddress}
-              onChange={(e) => {
-                setUpdatedAddress(e.target.value);
-              }}
+              value={values.address}
+              onChange={handleChange}
             />
             <TextField variant="outlined" label="date" />
             <TextField
               variant="outlined"
               label="phoneNumber"
-              value={phoneNumber}
-              onChange={(e) => {
-                setPhoneNumber(e.target.value);
-              }}
+              value={values.phoneNumber}
+              onChange={handleChange}
             />
             <Button type="submit">Order</Button>
           </Box>

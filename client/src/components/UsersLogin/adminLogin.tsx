@@ -39,7 +39,7 @@ export default function AdminLogin() {
         // Authorization: "Bearer " + token,
       },
     };
-    let role = ["admin", "customer", "worker"];
+    // let role = ["admin", "customer", "worker"];
     const url = "http://localhost:4000/login/customer";
     const payload = {
       email: data.get("email"),
@@ -67,11 +67,11 @@ export default function AdminLogin() {
     }
   };
 
-  // useEffect(() => {
-  //   if (token) {
-  //     navigate("/customer-dashboard");
-  //   }
-  // }, [token]);
+  useEffect(() => {
+    if (token) {
+      navigate("/customer-dashboard");
+    }
+  }, [token]);
 
   const handleChange = (event: React.SyntheticEvent, newValue: string) => {
     setValue(newValue);
@@ -101,7 +101,7 @@ export default function AdminLogin() {
               Admin LogIn
             </Toolbar>
           </Box>
-          <Box component="form" onSubmit={handleSubmit}>
+          <Box component="form">
             <TextField
               sx={{ mt: "20px" }}
               required
@@ -129,7 +129,7 @@ export default function AdminLogin() {
           <Button
             type="submit"
             variant="contained"
-            //   onClick={() => handleSubmit(e)}
+            onClick={() => handleSubmit}
           >
             Login
           </Button>
@@ -157,8 +157,8 @@ export default function AdminLogin() {
             label="Email Address"
             name="email"
             autoComplete="email"
-            // value={email}
-            // onChange={(event) => setEmail(event.target.value)}
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
           />
           <TextField
             sx={{ mt: "20px" }}
@@ -169,8 +169,8 @@ export default function AdminLogin() {
             type="password"
             id="password"
             autoComplete="new-password"
-            // value={password}
-            // onChange={(event) => setPassword(event.target.value)}
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
           />
           <Button
             type="submit"
@@ -203,8 +203,8 @@ export default function AdminLogin() {
             label="Email Address"
             name="email"
             autoComplete="email"
-            // value={email}
-            // onChange={(event) => setEmail(event.target.value)}
+            value={email}
+            onChange={(event) => setEmail(event.target.value)}
           />
           <TextField
             sx={{ mt: "20px" }}
@@ -215,8 +215,8 @@ export default function AdminLogin() {
             type="password"
             id="password"
             autoComplete="new-password"
-            // value={password}
-            // onChange={(event) => setPassword(event.target.value)}
+            value={password}
+            onChange={(event) => setPassword(event.target.value)}
           />
           <Button
             type="submit"
