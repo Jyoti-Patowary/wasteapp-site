@@ -1,16 +1,9 @@
-import { useState, useEffect } from "react";
-import { Box, TextField, Toolbar, Button } from "@mui/material";
-import Tab from "@mui/material/Tab";
-import TabContext from "@mui/lab/TabContext";
-import TabList from "@mui/lab/TabList";
-import TabPanel from "@mui/lab/TabPanel";
-import Login from "../Buttons/Login";
-import { useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from "react";
+import { Toolbar, Button, Box, TextField, Typography } from "@mui/material";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
-export default function AdminLogin() {
-  const [value, setValue] = useState("2");
-
+export const AdminLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [token, setToken] = useState(() =>
@@ -19,45 +12,31 @@ export default function AdminLogin() {
 
   const navigate = useNavigate();
 
-  const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-    event.preventDefault();
-    console.log("click");
-    const data = new FormData(event.currentTarget);
-    console.log({
-      email: data.get("email"),
-      password: data.get("password"),
-    });
-
-    const response = {
-      method: "post",
-      url: "http://localhost:4000/login/customer",
-      data: {
-        email: data.get("email"),
-        password: data.get("password"),
-      },
-      headers: {
-        // Authorization: "Bearer " + token,
-      },
-    };
-    // let role = ["admin", "customer", "worker"];
-    const url = "http://localhost:4000/login/customer";
+  const handleSubmit = async () => {
     const payload = {
-      email: data.get("email"),
-      password: data.get("password"),
+      email,
+      password,
     };
-    console.log(payload);
 
     try {
+      const url = "http://localhost:4000/login/user";
       const res = await axios.post(url, payload);
       console.log(res);
       if (res.status === 200) {
-        console.log(res.data);
+        console.log(res.data.role);
+
         const TOKEN_KEY = "access_token";
         localStorage.setItem(TOKEN_KEY, res.data.token);
+        localStorage.setItem("id", res.data._id);
+
         const accessToken = localStorage.getItem(TOKEN_KEY);
         console.log(accessToken);
-        if (accessToken) {
-          navigate("/customer-dashboard");
+        if (accessToken && res.data.role) {
+          let role = res.data.role.toLowerCase();
+          localStorage.setItem("userData", JSON.stringify(res.data));
+          navigate(`/${role}-dashboard`);
+        } else {
+          throw new Error("A user must have a role assigned");
         }
       }
     } catch (err) {
@@ -67,166 +46,62 @@ export default function AdminLogin() {
     }
   };
 
-  useEffect(() => {
-    if (token) {
-      navigate("/customer-dashboard");
-    }
-  }, [token]);
-
-  const handleChange = (event: React.SyntheticEvent, newValue: string) => {
-    setValue(newValue);
-  };
-
   return (
-    <Box sx={{ width: "100%", typography: "body1" }}>
-      <TabContext value={value}>
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-          <TabList onChange={handleChange} aria-label="lab API tabs example">
-            <Tab label="Admin Login" value="1" />
-            <Tab label="Customer Login" value="2" />
-            <Tab label="Worker Login" value="3" />
-          </TabList>
-        </Box>
-        <TabPanel value="1">
-          <Box>
-            <Toolbar
-              sx={{
-                bgcolor: "blueviolet",
-                color: "white",
-                display: "flex",
-                justifyContent: "center",
-                fontWeight: "bold",
-              }}
-            >
-              Admin LogIn
-            </Toolbar>
-          </Box>
-          <Box component="form">
-            <TextField
-              sx={{ mt: "20px" }}
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              value={email}
-              onChange={(event) => setEmail(event.target.value)}
-            />
-            <TextField
-              sx={{ mt: "20px" }}
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="new-password"
-              value={password}
-              onChange={(event) => setPassword(event.target.value)}
-            />
-          </Box>
-          <Button
-            type="submit"
-            variant="contained"
-            onClick={() => handleSubmit}
-          >
-            Login
-          </Button>
-        </TabPanel>
-        <TabPanel value="2">
-          {" "}
-          <Box>
-            <Toolbar
-              sx={{
-                bgcolor: "blueviolet",
-                color: "white",
-                display: "flex",
-                justifyContent: "center",
-                fontWeight: "bold",
-              }}
-            >
-              Customer LogIn
-            </Toolbar>
-          </Box>
-          <TextField
-            sx={{ mt: "20px" }}
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-          />
-          <TextField
-            sx={{ mt: "20px" }}
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="new-password"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-          />
-          <Button
-            type="submit"
-            variant="contained"
-            //   onClick={() => handleSubmit(e)}
-          >
-            Login
-          </Button>
-        </TabPanel>
-        <TabPanel value="3">
-          {" "}
-          <Box>
-            <Toolbar
-              sx={{
-                bgcolor: "blueviolet",
-                color: "white",
-                display: "flex",
-                justifyContent: "center",
-                fontWeight: "bold",
-              }}
-            >
-              Worker LogIn
-            </Toolbar>
-          </Box>
-          <TextField
-            sx={{ mt: "20px" }}
-            required
-            fullWidth
-            id="email"
-            label="Email Address"
-            name="email"
-            autoComplete="email"
-            value={email}
-            onChange={(event) => setEmail(event.target.value)}
-          />
-          <TextField
-            sx={{ mt: "20px" }}
-            required
-            fullWidth
-            name="password"
-            label="Password"
-            type="password"
-            id="password"
-            autoComplete="new-password"
-            value={password}
-            onChange={(event) => setPassword(event.target.value)}
-          />
-          <Button
-            type="submit"
-            variant="contained"
-            //   onClick={() => handleSubmit(e)}
-          >
-            Login
-          </Button>
-        </TabPanel>
-      </TabContext>
-    </Box>
+    <div>
+      <Box>
+        <Toolbar
+          sx={{
+            bgcolor: "blueviolet",
+            color: "white",
+            display: "flex",
+            justifyContent: "center",
+            fontWeight: "bold",
+          }}
+        >
+          LogIn
+        </Toolbar>
+      </Box>
+      <Box component="form" onSubmit={handleSubmit}>
+        <TextField
+          sx={{ mt: "40px" }}
+          required
+          fullWidth
+          id="email"
+          label="Email Address"
+          name="email"
+          autoComplete="email"
+          value={email}
+          onChange={(event) => setEmail(event.target.value)}
+        />
+        <TextField
+          sx={{ mt: "20px" }}
+          required
+          fullWidth
+          name="password"
+          label="Password"
+          type="password"
+          id="password"
+          autoComplete="new-password"
+          value={password}
+          onChange={(event) => setPassword(event.target.value)}
+        />
+      </Box>
+      <Button
+        type="submit"
+        variant="contained"
+        sx={{
+          borderRadius: "10px",
+          mt: "2rem",
+          width: "26rem",
+          bgcolor: "blueviolet",
+        }}
+        onClick={handleSubmit}
+      >
+        Login
+      </Button>
+      <Box sx={{ mt: "2rem" }}>
+        <Typography>Don't have an account ?</Typography>
+      </Box>
+    </div>
   );
-}
+};

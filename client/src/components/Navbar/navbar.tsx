@@ -1,58 +1,64 @@
-import * as React from "react";
-import {
-  AppBar,
-  Box,
-  Toolbar,
-  Typography,
-  Button,
-  Tabs,
-  Tab,
-  useTheme,
-  useMediaQuery,
-} from "@mui/material";
-import { FaPiedPiperAlt } from "react-icons/fa";
-import DrawerNav from "./drawerNav";
-import { useNavigate } from "react-router-dom";
+import { Button } from "@mui/material";
+import { Link as LinkR } from "react-router-dom";
+import styled from "styled-components";
 import SignUp from "../Buttons/SignUp";
-import Login from "../Buttons/Login";
-import AdminLogin from "../UsersLogin/adminLogin";
 import LoginModal from "../Modal/modal";
 
-export default function Navbar() {
-  // const login = React.useRef(null)
-  const [value, setvalue] = React.useState();
+const Navbar = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: sticky;
+  z-index: 10;
+  background-color: #000;
+  height: 80px;
+  top: 0;
+  font-size: 1rem;
+  margin-top: -80px;
+`;
 
-  const links = ["/", "/services", "/about", "/contact"];
+const NContainer = styled.div`
+  display: flex;
+  justify-content: space-between;
+  height: 80px;
+  z-index: 1;
+  width: 100%;
+  padding: 0 24px;
+  max-width: 1100px;
+`;
 
-  const navigate = useNavigate();
-  const theme = useTheme();
-  const isMatch = useMediaQuery(theme.breakpoints.down("md"));
+const NLogo = styled(LinkR)`
+  color: #fff;
+  justify-self: flex-start;
+  cursor: pointer;
+  font-size: 1.5rem;
+  display: flex;
+  align-items: center;
+  margin-left: 24px;
+  font-weigth: bold;
+  text-decoration: none;
+`;
 
+const NavB = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+`;
+
+export const AppBar = () => {
   return (
-    <Box sx={{ flexGrow: 1 }}>
-      <AppBar position="fixed" sx={{ bgcolor: "gray" }}>
-        <Toolbar sx={{ p: "15px" }}>
-          <FaPiedPiperAlt size={50} style={{ fontSize: "1.1rem" }} />
-          {isMatch ? (
-            <>
-              <Typography sx={{ fontSize: "1.1rem", pl: "10%" }}>
-                WasteApp
-              </Typography>
-              <DrawerNav />
-            </>
-          ) : (
-            <>
-              WasteApp
-              <div style={{ marginLeft: "auto" }}>
-                <LoginModal />
-              </div>
-              <Button sx={{ marginLeft: "10px" }} variant="contained">
-                <SignUp />
-              </Button>
-            </>
-          )}
-        </Toolbar>
-      </AppBar>
-    </Box>
+    <Navbar>
+      <NContainer>
+        <NLogo<any>>Zero Waste</NLogo>
+        <NavB>
+          <Button variant="contained" sx={{ background: "green" }}>
+            <LoginModal />
+          </Button>
+          <Button variant="contained" sx={{ background: "green" }}>
+            <SignUp />
+          </Button>
+        </NavB>
+      </NContainer>
+    </Navbar>
   );
-}
+};

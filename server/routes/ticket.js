@@ -1,77 +1,21 @@
-const express = require('express')
-const Ticket = require('../models/ticket.model')
-const router = new express.Router()
+const express = require("express");
+const router = express.Router();
+const {
+  getAllTicket,
+  getTicket,
+  modifyTicket,
+  deleteTicket,
+  postTicket,
+  acceptTicket,
+} = require("../controllers/ticket.controller");
+const { protect } = require("../middleware/auth.middleware");
+// const { route } = require("./dispute");
 
-router.post('/ticket', async (req, res) => {
-    const ticket = new Ticket(req.body)
+router.route("/tickets").get(getAllTicket);
+router.post("/create/ticket", protect, postTicket);
+router.route("/ticket/:id").get(getTicket);
+router.post("/ticket/accepted/:id", protect, acceptTicket);
+router.route("/update-ticket/:id").put(modifyTicket);
+router.route("/delete-ticket/:id").delete(deleteTicket);
 
-    try {
-        await ticket.save()
-        res.status(201).send(ticket)
-    } catch (e) {
-        res.status(400).send(e)
-    }
-})
-
-router.get('/ticket', async (req, res) => {
-    try {
-        const ticket = await Ticket.find({})
-        res.send(ticket)
-    } catch (e) {
-        res.status(500).send()
-    }
-})
-
-router.get('/ticket/:id', async (req, res) => {
-    const _id = req.params.id
-
-    try {
-        const ticket = await Ticket.findById(_id)
-
-        if (!ticket) {
-            return res.status(404).send()
-        }
-
-        res.send(ticket)
-    } catch (e) {
-        res.status(500).send()
-    }
-})
-
-router.patch('/ticket/:id', async (req, res) => {
-    const updates = Object.keys(req.body)
-    const allowedUpdates = ['firstname', 'lastname', 'email', 'password']
-    const isValidOperation = updates.every((update) => allowedUpdates.includes(update))
-
-    if (!isValidOperation) {
-        return res.status(400).send({ error: 'Invalid updates!' })
-    }
-
-    try {
-        const ticket = await Ticket.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true })
-
-        if (!ticket) {
-            return res.status(404).send()
-        }
-
-        res.send(ticket)
-    } catch (e) {
-        res.status(400).send(e)
-    }
-})
-
-router.delete('/ticket/:id', async (req, res) => {
-    try {
-        const ticket = await Ticket.findByIdAndDelete(req.params.id)
-
-        if (!ticket) {
-            return res.status(404).send()
-        }
-
-        res.send(ticket)
-    } catch (e) {
-        res.status(500).send()
-    }
-})
-
-module.exports = router
+module.exports = router;

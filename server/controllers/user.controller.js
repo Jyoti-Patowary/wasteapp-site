@@ -2,9 +2,6 @@ const asyncHandler = require("express-async-handler");
 const User = require("../models/user.model");
 const generateToken = require("../utility/token");
 
-//@description     Auth the user
-//@route           POST /users/login
-//@access          Public
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
 
@@ -13,11 +10,13 @@ const authUser = asyncHandler(async (req, res) => {
   if (user && (await user.matchPassword(password))) {
     res.json({
       _id: user._id,
+      role: user.role,
       firstname: user.firstname,
       lastname: user.lastname,
       email: user.email,
-      isAdmin: user.isAdmin,
-      pic: user.pic,
+      address: user.address,
+      phoneNumber: user.phoneNumber,
+      photo: user.photo,
       token: generateToken(user._id),
     });
   } else {
@@ -26,11 +25,33 @@ const authUser = asyncHandler(async (req, res) => {
   }
 });
 
-//@description     Register new user
-//@route           POST /api/users/
-//@access          Public
+const getUser = asyncHandler(async (req, res) => {
+  const _id = req.params.id;
+
+  try {
+    const user = await User.findById(_id);
+
+    if (!user) {
+      return res.status(404).send();
+    }
+
+    res.send(user);
+  } catch (e) {
+    res.status(401).send();
+  }
+});
+
 const registerUser = asyncHandler(async (req, res) => {
-  const { firstname, lastname, email, password, pic } = req.body;
+  const {
+    role,
+    firstname,
+    lastname,
+    email,
+    password,
+    address,
+    phoneNumber,
+    photo,
+  } = req.body;
 
   try {
     const userExists = await User.findOne({ email });
@@ -40,20 +61,25 @@ const registerUser = asyncHandler(async (req, res) => {
     }
 
     const user = await User.create({
+      role,
       firstname,
       lastname,
       email,
       password,
-      pic,
+      address,
+      phoneNumber,
+      photo,
     });
 
     res.status(201).json({
       _id: user._id,
+      role: user.role,
       firstname: user.firstname,
       lastname: user.lastname,
       email: user.email,
-      isAdmin: user.isAdmin,
-      pic: user.pic,
+      address: user.address,
+      phoneNumber: user.phoneNumber,
+      photo: user.photo,
       token: generateToken(user._id),
     });
   } catch (error) {
@@ -61,36 +87,65 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
-// @desc    GET user profile
-// @route   GET /api/users/profile
-// @access  Private
+const getAllUsers = async (req, res) => {
+  try {
+    let allUsers = await User.find({}).select("-password").lean();
+    res.json({
+      ...allUsers,
+      token: generateToken(allUsers._id),
+    });
+  } catch (e) {
+    res.status(400);
+    throw new Error("Enable Find Users");
+  }
+};
+
 const updateUserProfile = asyncHandler(async (req, res) => {
-  const user = await User.findById(req.user._id);
-
-  if (user) {
-    user.firstname = req.body.firstname || user.firstname;
-    user.lastname = req.body.lastname || user.lastname;
-    user.email = req.body.email || user.email;
-    user.pic = req.body.pic || user.pic;
-    if (req.body.password) {
-      user.password = req.body.password;
-    }
-
-    const updatedUser = await user.save();
+  try {
+    let updatedUser = await User.findOneAndUpdate(
+      { _id: req.user._id },
+      {
+        $set: {
+          ...req.body,
+        },
+      },
+      { new: true }
+    )
+      .select("-password")
+      .lean();
 
     res.json({
-      _id: updatedUser._id,
-      firstname: updatedUser.firstname,
-      lastname: updatedUser.lastname,
-      email: updatedUser.email,
-      pic: updatedUser.pic,
-      isAdmin: updatedUser.isAdmin,
+      ...updatedUser,
       token: generateToken(updatedUser._id),
     });
-  } else {
+  } catch (err) {
     res.status(404);
-    throw new Error("User Not Found");
+    throw new Error("User Update failed");
   }
 });
 
-module.exports = { authUser, updateUserProfile, registerUser };
+const deleteUserProfile = asyncHandler(async (req, res) => {
+  try {
+    let deleteUser = await User.findOneAndDelete({ _id: req.user._id })
+      .select("-password")
+      .lean();
+
+    res.json({
+      ...deleteUser,
+      token: generateToken(deleteUser._id),
+    });
+  } catch (err) {
+    console.log({ err });
+    res.status(404);
+    throw new Error("User Delete failed");
+  }
+});
+
+module.exports = {
+  authUser,
+  updateUserProfile,
+  registerUser,
+  deleteUserProfile,
+  getAllUsers,
+  getUser,
+};

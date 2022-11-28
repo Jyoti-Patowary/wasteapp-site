@@ -1,27 +1,37 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-
-const ticketSchema = mongoose.Schema({
+const ticketSchema = mongoose.Schema(
+  {
     raiser: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Customer",
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
     },
-    acceptor: {
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Admin",
+    receiver: {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
     },
-    workerId:{
-        type: mongoose.Schema.Types.ObjectId,
-        ref: "Worker",
+    createdDate: {
+      type: Number,
+      default: Date.now(),
     },
-    isAccepted: {
-        type: Boolean,
-        default: false
-    },   
-},{
-    timestamps: true
+    requestedDate: {
+      type: Number,
+      required: true,
+    },
+    status: {
+      type: String,
+      default: "isOpen",
+      enum: ["isAssigned", "isOpen", "inProgress", "isClosed"],
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
+
+ticketSchema.pre("find", function () {
+  this.populate("raiser", "firstname lastname email address phoneNumber");
+  this.populate("receiver", "firstname lastname email address phoneNumber");
 });
 
-
-
-module.exports = mongoose.model('Ticket', ticketSchema);
+module.exports = mongoose.model("Ticket", ticketSchema);

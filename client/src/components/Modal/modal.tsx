@@ -1,19 +1,18 @@
 import * as React from "react";
 import Box from "@mui/material/Box";
-import Button from "@mui/material/Button";
-import Typography from "@mui/material/Typography";
 import Modal from "@mui/material/Modal";
-import AdminLogin from "../UsersLogin/adminLogin";
+import { AdminLogin } from "../UsersLogin/adminLogin";
 
 const style = {
   position: "absolute" as "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 450,
-  height: 500,
+  width: 400,
+  height: 400,
   bgcolor: "background.paper",
   border: "2px solid #000",
+  borderRadius: "10px",
   boxShadow: 24,
   p: 4,
 };
@@ -25,7 +24,7 @@ export default function LoginModal() {
 
   return (
     <div>
-      <Button onClick={handleOpen}>Login</Button>
+      <div onClick={handleOpen}>Login</div>
       <Modal
         open={open}
         onClose={handleClose}

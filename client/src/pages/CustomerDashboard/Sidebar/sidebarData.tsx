@@ -11,24 +11,24 @@ import { SidebarItem } from "./sidebarItem";
 export const SidebarData: SidebarItem[] = [
   {
     title: "Home",
-    path: "/worker-dashboard/home",
+    path: "/customer-dashboard/home",
     icon: <AiOutlineHome />,
     iconClosed: <AiFillCaretDown />,
     iconOpened: <AiFillCaretUp />,
   },
   {
-    title: "Request Received",
-    path: "/worker-dashboard/request-received",
+    title: "Request",
+    path: "/customer-dashboard/request",
     icon: <FaOpencart />,
   },
   {
     title: "History",
-    path: "/worker-dashboard/history",
+    path: "/customer-dashboard/history",
     icon: <AiOutlineHistory />,
   },
   {
     title: "Configurations",
-    path: "/worker-dashboard/configuration",
+    path: "/customer-dashboard/configuration",
     icon: <FaCog />,
   },
 ];

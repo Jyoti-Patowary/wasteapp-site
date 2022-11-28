@@ -1,41 +1,44 @@
-const mongoose = require('mongoose');
-const validator = require('validator')
-// const {Schema} = require('mongoose');
-
+const mongoose = require("mongoose");
 
 // const User = mongoose.model('User', {
-const adminSchema = mongoose.Schema({
+const adminSchema = mongoose.Schema(
+  {
+    role: {
+      type: String,
+      enum: ["admin", "customer", "worker"],
+    },
     firstname: {
-        type: String,
-        required: true,
-        trim: true
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
     },
     lastname: {
-        type: String,
-        required: true,
-        trim: true
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
     },
     email: {
-        type: String,
-        required: true,
-        trim: true,
-        validate(value){
-            if(!validator.isEmail(value)) {
-                throw new Error('Emaail is invalid')
-            }
-        }    
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
     },
     password: {
-        type: String,
-        required: true
-    }
-    // photo: {
-    //     type: String,
-    // }     
-}, {
-    timestamps: true
-});
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "User",
+      address: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+      phoneNumber: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+      photo: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "User",
+      },
+    },
+  },
+  {
+    timestamps: true,
+  }
+);
 
-
-
-module.exports = mongoose.model('Admin', adminSchema);
+module.exports = mongoose.model("Admin", adminSchema);

@@ -2,7 +2,6 @@ import { Box, Typography, TextField, Button } from "@mui/material";
 import axios from "axios";
 import React, { useState, useEffect } from "react";
 import styled from "styled-components";
-import { createOrder } from "../../../../components/config/config";
 
 const Main = styled.div`
   max-width: 2200px;
@@ -45,31 +44,35 @@ const Home = () => {
   const [customerdata, setCustomerdata] = useState<any>([]);
   const [updatedAddress, setUpdatedAddress] = useState("");
   const [phoneNumber, setPhoneNumber] = useState<any>("");
-  const [values, setValues] = useState<IFormInputValues>(getOrderValues);
+  const [values, setValues] = useState<IFormInputValues>({
+    address: "",
+    date: "",
+    phoneNumber: "",
+  });
 
-  // const fetchCustomerData = () => {
-  //   return axios
-  //     .get("http://localhost:4000/customer/637f92371ed043c7fd1a7438")
-  //     .then((Response) => setCustomerdata(Response.data));
-  // };
-
-  const postOrder = async () => {
+  const postOrder = async (event: any) => {
+    event.preventDefault();
     console.log("clicked");
+    const url = "http://localhost:4000/create/ticket";
 
-    const { address, phoneNumber, date } = values;
+    const TOKEN_KEY = "access_token";
+    const accessToken = localStorage.getItem(TOKEN_KEY);
 
-    const url = "http://localhost:4000/customer/637f92371ed043c7fd1a7438";
-    console.log(url);
-    const payload = {
-      // customerID: customerdata._id,
-      address: updatedAddress,
-      phoneNumber: phoneNumber,
-    };
-    // const res = await createOrder(payload, role);
     try {
-      const data = await axios.post(url, payload);
+      const data = await axios.post(
+        url,
+        {
+          requestedDate: Date.now(),
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
       if (data.status === 200) {
         console.log(data.data);
+        // setCustomerdata(data.data);
       }
     } catch (error) {
       // @ts-ignore
@@ -78,8 +81,10 @@ const Home = () => {
   };
 
   useEffect(() => {
-    localStorage.setItem("TextField", JSON.stringify(values));
-  }, [values]);
+    const userData = JSON.parse(localStorage.getItem("userData") as string);
+    console.log({ userData });
+    setCustomerdata(userData);
+  }, []);
 
   function handleChange(
     event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -102,11 +107,12 @@ const Home = () => {
           <Typography variant="h6" sx={{ display: "flex", mt: "5rem" }}>
             Request for Worker
           </Typography>
-          <Box component="form" onSubmit={() => postOrder()}>
+          <Box component="form" onSubmit={postOrder}>
             <TextField
               variant="outlined"
               label="address"
               sx={{ m: "2rem" }}
+              name="address"
               value={values.address}
               onChange={handleChange}
             />
@@ -114,6 +120,7 @@ const Home = () => {
             <TextField
               variant="outlined"
               label="phoneNumber"
+              name="phoneNumber"
               value={values.phoneNumber}
               onChange={handleChange}
             />

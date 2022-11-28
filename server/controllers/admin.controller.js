@@ -1,16 +1,6 @@
-// const Admin = require("../models/admin.model")
+const asyncHandler = require("express-async-handler");
+const Admin = require("../models/admin.model");
 
+const authAdmin = asyncHandler(async (req, res) => {});
 
-const login = async(req, res) => {
-    try{
-
-    } catch(err){
-
-    }
-}
-
-function signUp (){
-    
-}
-
-module.exports = {login, signUp}
+const deleteAdmin = asyncHandler(async (req, res) => {});
