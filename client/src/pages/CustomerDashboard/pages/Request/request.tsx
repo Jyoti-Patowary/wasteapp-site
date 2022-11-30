@@ -1,118 +1,70 @@
 import React from "react";
-import { Box, Grid, TextField } from "@mui/material";
-import styled from "styled-components";
-
-const Main = styled.div`
-  max-width: 2200px;
-  margin: 1.5rem;
-  display: grid;
-  // gap: 2rem;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-`;
-
-const Card = styled.div`
-background-color: red;
-color: white;
-padding: 20px;
-height: 45rem;
-display: flex;
-// align-items: center,
-// justify-content: center
-}
-`;
+import { Grid, Box, Typography, Card, TextField } from "@mui/material";
+import { RequestMainBox } from "./requestStyles";
 
 const Request = () => {
   return (
-    <Main>
-      <Card>
-        <Box component="form">
-          <TextField
-            autoComplete="given-name"
-            name="firstname"
-            required
-            fullWidth
-            id="firstname"
-            label="First Name"
-            autoFocus
-            // value={values.firstname}
-            // onChange={handleChange}
-            sx={{ m: "20px", maxWidth: "20rem" }}
-          />
-          <TextField
-            autoComplete="given-name"
-            name="firstname"
-            required
-            fullWidth
-            id="firstname"
-            label="First Name"
-            autoFocus
-            // value={values.firstname}
-            // onChange={handleChange}
-            sx={{ m: "20px", maxWidth: "20rem" }}
-          />
-          <TextField
-            autoComplete="given-name"
-            name="firstname"
-            required
-            fullWidth
-            id="firstname"
-            label="First Name"
-            autoFocus
-            // value={values.firstname}
-            // onChange={handleChange}
-            sx={{ m: "20px", maxWidth: "20rem" }}
-          />
-          <TextField
-            autoComplete="given-name"
-            name="firstname"
-            required
-            fullWidth
-            id="firstname"
-            label="First Name"
-            autoFocus
-            // value={values.firstname}
-            // onChange={handleChange}
-            sx={{ m: "20px", maxWidth: "20rem" }}
-          />
-          <TextField
-            autoComplete="given-name"
-            name="firstname"
-            required
-            fullWidth
-            id="firstname"
-            label="First Name"
-            autoFocus
-            // value={values.firstname}
-            // onChange={handleChange}
-            sx={{ m: "20px", maxWidth: "20rem" }}
-          />
-          <TextField
-            autoComplete="given-name"
-            name="firstname"
-            required
-            fullWidth
-            id="firstname"
-            label="First Name"
-            autoFocus
-            // value={values.firstname}
-            // onChange={handleChange}
-            sx={{ m: "20px", maxWidth: "20rem" }}
-          />
-          <TextField
-            autoComplete="given-name"
-            name="firstname"
-            required
-            fullWidth
-            id="firstname"
-            label="First Name"
-            autoFocus
-            // value={values.firstname}
-            // onChange={handleChange}
-            sx={{ m: "20px", maxWidth: "20rem" }}
-          />
-        </Box>
-      </Card>
-    </Main>
+    <Box sx={{ backgroundColor: "#dde1e7" }}>
+      <RequestMainBox>
+        <Grid container>
+          <Grid item xs={12} md={12}>
+            <Typography
+              variant="h4"
+              fontWeight={"bold"}
+              sx={{
+                display: "flex",
+                // ml: "1rem",
+                fontFamily: "'Poppins', sans-serif",
+              }}
+            >
+              Make a Request !
+            </Typography>
+          </Grid>
+          <Grid item xs={12} md={6}>
+            <Card
+              sx={{
+                height: "5rem",
+                mt: "2rem",
+                bgcolor: "#dde1e7",
+                p: "5rem",
+                borderRadius: "10px",
+                boxShadow:
+                  "-5px -5px 9px rgba(255,255,255,0.45), 5px 5px 9px rgba(94,104,121,0.3);",
+              }}
+            >
+              <Grid container xs={12} md={12} spacing={2}>
+                <Grid item xs={12} md={4}>
+                  <TextField
+                    fullWidth
+                    label="Address"
+                    sx={{
+                      boxShadow:
+                        "inset -5px -5px 9px rgba(255,255,255,0.45), inset 5px 5px 9px rgba(94,104,121,0.3);",
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <TextField
+                    sx={{
+                      boxShadow:
+                        "inset -5px -5px 9px rgba(255,255,255,0.45), inset 5px 5px 9px rgba(94,104,121,0.3);",
+                    }}
+                  />
+                </Grid>
+                <Grid item xs={12} md={4}>
+                  <TextField
+                    sx={{
+                      boxShadow:
+                        "inset -5px -5px 9px rgba(255,255,255,0.45), inset 5px 5px 9px rgba(94,104,121,0.3);",
+                    }}
+                  />
+                </Grid>
+              </Grid>
+            </Card>
+          </Grid>
+        </Grid>
+      </RequestMainBox>
+    </Box>
   );
 };
 

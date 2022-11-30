@@ -1,13 +1,7 @@
 import { Box, Button, styled, Typography } from "@mui/material";
 import { FaPhoenixFramework } from "react-icons/fa";
 import { GiThorHammer, GiFrozenBody } from "react-icons/gi";
-
-// import buyIcon from "../media/buy_icon.png";
-// import sellIcon from "../media/sell_icon.png";
-// import rentIcon from "../media/rent_icon.png";
-
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
-// import CustomButton from "./CustomButton";
 
 const About = () => {
   const CustomBox = styled(Box)(({ theme }) => ({
@@ -81,7 +75,6 @@ const About = () => {
           in one place
         </Typography>
       </CustomBox>
-
       <GuidesBox>
         <GuideBox>
           <FaPhoenixFramework size={100} color="black" />

@@ -12,7 +12,7 @@ const Main = styled.div`
 `;
 
 const Card = styled.div`
-  background-color: black;
+  background-color: yellow;
   color: white;
   padding: 1rem;
   height: 4rem;

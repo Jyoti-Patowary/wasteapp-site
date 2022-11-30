@@ -5,13 +5,13 @@ import {
   AiOutlineHome,
   AiOutlineUser,
 } from "react-icons/ai";
-import { FaCog, FaOpencart, FaUserInjured, FaMixer } from "react-icons/fa";
+import { FaCog, FaOpencart } from "react-icons/fa";
 import { SidebarItem } from "./sidebarItem";
 
 export const SidebarData: SidebarItem[] = [
   {
     title: "Home",
-    path: "/customer-dashboard/home",
+    path: "/customer-dashboard/",
     icon: <AiOutlineHome />,
     iconClosed: <AiFillCaretDown />,
     iconOpened: <AiFillCaretUp />,

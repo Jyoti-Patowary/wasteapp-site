@@ -5,7 +5,6 @@ import { IconContext } from "react-icons";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { SidebarData } from "./sidebarData";
 import Submenu from "../../Dashboard/Sidebar/subMenu";
-// import { Button } from "@mui/material";
 
 const Nav = styled.div`
   display: flex;

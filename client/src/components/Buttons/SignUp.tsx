@@ -24,6 +24,7 @@ const style = {
   left: "50%",
   transform: "translate(-50%, -50%)",
   width: "30%",
+  // height: "100%",
   bgcolor: "background.paper",
   border: "2px solid #000",
   boxShadow: 24,
@@ -61,6 +62,7 @@ const SignUp = () => {
   const [open, setOpen] = useState(false);
   const handleOpen = () => setOpen(true);
   const handleClose = () => setOpen(false);
+  const [file, setFile] = useState<string | ArrayBuffer | null>("");
 
   const navigate = useNavigate();
   const [values, setValues] = useState<IFormInputValues>(getFormValues);
@@ -70,12 +72,26 @@ const SignUp = () => {
     localStorage.setItem("TextField", JSON.stringify(values));
   }, [values]);
 
+  const handleFileChange = (fileList: FileList | null) => {
+    const file = fileList && fileList[0];
+
+    const fileReader = new FileReader();
+
+    fileReader.readAsDataURL(file!);
+
+    fileReader.onloadend = () => {
+      setFile(fileReader.result);
+    };
+  };
+
+  console.log({ file });
+
   const handleSubmit = async () => {
     // event.preventDefault();
     const { firstname, lastname, email, password, phoneNumber, address } =
       values;
 
-    const url = "http://localhost:4000/user";
+    const url = "http://localhost:4000/register/user";
     const payload = {
       firstname,
       lastname,
@@ -84,6 +100,7 @@ const SignUp = () => {
       phoneNumber,
       address,
       role: selectedValue,
+      photo: file,
     };
 
     try {
@@ -254,6 +271,12 @@ const SignUp = () => {
               autoComplete="address"
               value={values.address}
               onChange={handleChange}
+            />
+          </Grid>
+          <Grid item xs={12}>
+            <input
+              type="file"
+              onChange={(e) => handleFileChange(e.target.files)}
             />
           </Grid>
           <Grid item xs={12}>

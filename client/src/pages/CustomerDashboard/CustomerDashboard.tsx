@@ -11,7 +11,7 @@ const CustomerDashboard = () => {
     <>
       <Sidebar />
       <Routes>
-        <Route path="home" element={<Home />} />
+        <Route path="" element={<Home />} />
         <Route path="request" element={<Request />} />
         <Route path="history" element={<History />} />
         <Route path="configuration" element={<Configuration />} />

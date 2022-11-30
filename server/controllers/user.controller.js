@@ -1,3 +1,4 @@
+const { hash } = require("bcrypt");
 const asyncHandler = require("express-async-handler");
 const User = require("../models/user.model");
 const generateToken = require("../utility/token");
@@ -7,8 +8,14 @@ const authUser = asyncHandler(async (req, res) => {
 
   const user = await User.findOne({ email });
 
-  if (user && (await user.matchPassword(password))) {
-    res.json({
+  if (user) {
+    const matchPassword = await user.matchPassword(password);
+    if (!matchPassword)
+      return res.status(401).json({ error: "Invalid email/password." });
+
+    const token = generateToken(user._id);
+    console.log({ token });
+    return res.status(200).json({
       _id: user._id,
       role: user.role,
       firstname: user.firstname,
@@ -17,11 +24,10 @@ const authUser = asyncHandler(async (req, res) => {
       address: user.address,
       phoneNumber: user.phoneNumber,
       photo: user.photo,
-      token: generateToken(user._id),
+      token,
     });
   } else {
-    res.status(401);
-    throw new Error("Invalid Email or Password");
+    res.status(401).json({ error: "Invalid email/password." });
   }
 });
 
@@ -68,10 +74,10 @@ const registerUser = asyncHandler(async (req, res) => {
       password,
       address,
       phoneNumber,
-      photo,
+      photo: [photo],
     });
 
-    res.status(201).json({
+    return res.status(201).json({
       _id: user._id,
       role: user.role,
       firstname: user.firstname,
@@ -83,6 +89,7 @@ const registerUser = asyncHandler(async (req, res) => {
       token: generateToken(user._id),
     });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: error.message });
   }
 });
@@ -102,11 +109,12 @@ const getAllUsers = async (req, res) => {
 
 const updateUserProfile = asyncHandler(async (req, res) => {
   try {
-    let updatedUser = await User.findOneAndUpdate(
+    let = await User.findOneAndUpdate(
       { _id: req.user._id },
       {
         $set: {
           ...req.body,
+          password: await hash(req.body.password, 13),
         },
       },
       { new: true }
@@ -141,6 +149,19 @@ const deleteUserProfile = asyncHandler(async (req, res) => {
   }
 });
 
+const uploadPhoto = asyncHandler(async (req, res) => {
+  try {
+    const user = await User.findById(req.user._id);
+    console.log("Here");
+    user.photo.push(req.body.photo);
+    await user.save();
+    return res.status(200).json({ success: true });
+  } catch (error) {
+    // console.log({ err });
+    res.status(500).json({ error: "Image was not uploaded" });
+  }
+});
+
 module.exports = {
   authUser,
   updateUserProfile,
@@ -148,4 +169,5 @@ module.exports = {
   deleteUserProfile,
   getAllUsers,
   getUser,
+  uploadPhoto,
 };
