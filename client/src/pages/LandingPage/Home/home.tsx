@@ -104,8 +104,9 @@ function Home() {
   const HomeContainer = styled(Box)(({ theme }) => ({
     backgroundImage: `url(${bg})`,
     // backgroundSize: "cover",
-    height: "500px",
+    height: "800px",
     zIndex: "-10px",
+    opacity: "0.6",
   }));
 
   const [hover, setHover] = React.useState(false);
@@ -116,11 +117,27 @@ function Home() {
 
   return (
     <Box sx={{ backgroundColor: "#dde1e7" }}>
-      <HomeContainer>
-        <Typography sx={{ zIndex: 10, color: "black" }}>
-          Let's make our Environment Clean and Green
+      <Box sx={{ bgcolor: "black" }}>
+        <HomeContainer />
+        <Typography
+          sx={{
+            // zIndex: 10,
+            width: "80%",
+            textAlign: "center",
+            position: "absolute",
+            top: "50%",
+            left: "50%",
+            transform: "translate(-50%, -50%)",
+            fontSize: "5rem",
+            fontWeight: "600",
+            color: "#fff",
+          }}
+        >
+          Let's make our Environment{" "}
+          <span style={{ color: "green" }}>Clean</span> and{" "}
+          <span style={{ color: "green" }}>Green</span>
         </Typography>
-      </HomeContainer>
+      </Box>
     </Box>
   );
   // return (

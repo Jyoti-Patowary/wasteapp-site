@@ -15,6 +15,7 @@ const authUser = asyncHandler(async (req, res) => {
 
     const token = generateToken(user._id);
     console.log({ token });
+    console.log(user);
     return res.status(200).json({
       _id: user._id,
       role: user.role,
@@ -74,7 +75,7 @@ const registerUser = asyncHandler(async (req, res) => {
       password,
       address,
       phoneNumber,
-      photo: [photo],
+      photo,
     });
 
     return res.status(201).json({
@@ -96,11 +97,11 @@ const registerUser = asyncHandler(async (req, res) => {
 
 const getAllUsers = async (req, res) => {
   try {
-    let allUsers = await User.find({}).select("-password").lean();
-    res.json({
+    let allUsers = await User.find({}).lean();
+    res.json([
       ...allUsers,
-      token: generateToken(allUsers._id),
-    });
+      // token: generateToken(allUsers._id),
+    ]);
   } catch (e) {
     res.status(400);
     throw new Error("Enable Find Users");
@@ -151,11 +152,15 @@ const deleteUserProfile = asyncHandler(async (req, res) => {
 
 const uploadPhoto = asyncHandler(async (req, res) => {
   try {
-    const user = await User.findById(req.user._id);
-    console.log("Here");
-    user.photo.push(req.body.photo);
-    await user.save();
-    return res.status(200).json({ success: true });
+    const user = await User.findByIdAndUpdate(
+      req.user._id,
+      {
+        photo: req.body.photo,
+      },
+      { new: true }
+    );
+
+    return res.status(200).json({ success: true, user });
   } catch (error) {
     // console.log({ err });
     res.status(500).json({ error: "Image was not uploaded" });

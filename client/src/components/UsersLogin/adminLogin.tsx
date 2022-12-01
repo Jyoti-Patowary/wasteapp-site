@@ -14,6 +14,7 @@ import { useNavigate } from "react-router-dom";
 export const AdminLogin = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState();
   const [token, setToken] = useState(() =>
     localStorage.getItem("access_token")
   );
@@ -41,6 +42,7 @@ export const AdminLogin = () => {
         console.log(accessToken);
         if (accessToken && res.data.role) {
           let role = res.data.role.toLowerCase();
+          // let { photo, ...data } = res.data;
           localStorage.setItem("userData", JSON.stringify(res.data));
           navigate(`/${role}-dashboard`);
         } else {
@@ -48,7 +50,7 @@ export const AdminLogin = () => {
         }
       }
     } catch (err) {
-      console.log(err);
+      console.error({ err });
       // @ts-ignore
       setError(err.response.data.message || "Error");
     }
@@ -67,6 +69,7 @@ export const AdminLogin = () => {
       <Grid item xs={12}>
         <TextField
           sx={{ mt: "20px" }}
+          // helperText={}s
           required
           fullWidth
           id="email"

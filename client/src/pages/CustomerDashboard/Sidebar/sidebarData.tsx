@@ -13,14 +13,14 @@ export const SidebarData: SidebarItem[] = [
     title: "Home",
     path: "/customer-dashboard/",
     icon: <AiOutlineHome />,
-    iconClosed: <AiFillCaretDown />,
-    iconOpened: <AiFillCaretUp />,
+    // iconClosed: <AiFillCaretDown />,
+    // iconOpened: <AiFillCaretUp />,
   },
-  {
-    title: "Request",
-    path: "/customer-dashboard/request",
-    icon: <FaOpencart />,
-  },
+  // {
+  //   title: "Request",
+  //   path: "/customer-dashboard/request",
+  //   icon: <FaOpencart />,
+  // },
   {
     title: "History",
     path: "/customer-dashboard/history",

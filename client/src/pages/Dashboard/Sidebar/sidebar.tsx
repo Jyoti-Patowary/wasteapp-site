@@ -5,7 +5,8 @@ import { IconContext } from "react-icons";
 import { AiOutlineMenu, AiOutlineClose } from "react-icons/ai";
 import { SidebarData } from "./sidebarData";
 import Submenu from "./subMenu";
-// import { Button } from "@mui/material";
+import { ClickAwayListener, IconButton, Tooltip } from "@mui/material";
+import { IoMdLogOut } from "react-icons/io";
 
 const Nav = styled.div`
   display: flex;
@@ -48,7 +49,16 @@ const SidebarWrap = styled.div``;
 const Sidebar: FC = () => {
   const [sidebar, setSidebar] = useState(false);
   const showSidebar = () => setSidebar(!sidebar);
+  const [open, setOpen] = React.useState(false);
   const navigate = useNavigate();
+
+  const handleClick = () => {
+    setOpen((prev) => !prev);
+  };
+
+  const handleClickAway = () => {
+    setOpen(false);
+  };
 
   const handleLogOut = () => {
     localStorage.removeItem("access_token");
@@ -61,18 +71,31 @@ const Sidebar: FC = () => {
         <NavIcon to="#" onClick={showSidebar}>
           <AiOutlineMenu />
         </NavIcon>
-        <Button onClick={() => handleLogOut()}>Logout</Button>
+        <Tooltip title="Logout">
+          <IconButton
+            sx={{ background: "rgba(0,0,0,0.1)", mr: 6 }}
+            size="large"
+            onClick={() => handleLogOut()}
+          >
+            <IoMdLogOut />
+          </IconButton>
+        </Tooltip>
+        {/* <Button onClick={() => handleLogOut()}>Logout</Button> */}
       </Nav>
-      <SidebarNav sidebar={sidebar}>
-        <SidebarWrap>
-          <NavIcon to="#" onClick={showSidebar}>
-            <AiOutlineClose />
-          </NavIcon>
-          {SidebarData.map((item, index) => {
-            return <Submenu item={item} key={index} />;
-          })}
-        </SidebarWrap>
-      </SidebarNav>
+      <ClickAwayListener onClickAway={handleClickAway}>
+        <SidebarNav sidebar={sidebar}>
+          <div onClick={handleClick}>
+            <SidebarWrap>
+              <NavIcon to="#" onClick={showSidebar}>
+                <AiOutlineClose />
+              </NavIcon>
+              {SidebarData.map((item, index) => {
+                return <Submenu item={item} key={index} />;
+              })}
+            </SidebarWrap>
+          </div>
+        </SidebarNav>
+      </ClickAwayListener>
     </IconContext.Provider>
   );
 };

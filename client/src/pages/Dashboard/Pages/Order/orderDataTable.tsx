@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -7,6 +7,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import axios from "axios";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -28,22 +29,39 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(
-  firstname: string = " ",
-  lastname: string = " ",
-  email: string = " ",
-  phoneNumber: number = 1,
-  address: string = "1"
-) {
-  return { firstname, lastname, email, phoneNumber, address };
-}
+// function createData(
+//   firstname: string = " ",
+//   lastname: string = " ",
+//   email: string = " ",
+//   phoneNumber: number = 1,
+//   address: string = "1"
+// ) {
+//   return { firstname, lastname, email, phoneNumber, address };
+// }
 
-const rows = [
-  createData("Frozen yoghurt", "lastname", "email", 7854556, "address"),
-];
+// const rows = [
+//   createData("Frozen yoghurt", "lastname", "email", 7854556, "address"),
+// ];
 
-export default function WorkerDataTable(props) {
-  // const [tableData, setTableData] = useState([]);
+export default function OrderDataTable(props) {
+  const [tableData, setTableData] = useState<any>([]);
+
+  const token = localStorage.getItem("access_token");
+
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    let res = await axios.get("http://localhost:4000/users", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    //   console.log("res,...", res.data);
+    setTableData(res.data);
+  };
+
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -51,21 +69,22 @@ export default function WorkerDataTable(props) {
           <TableRow>
             <StyledTableCell>First Name</StyledTableCell>
             <StyledTableCell>Last Name</StyledTableCell>
+
             <StyledTableCell align="right">Address</StyledTableCell>
             <StyledTableCell align="right">Email ID</StyledTableCell>
-            <StyledTableCell align="right">PhoneNumber</StyledTableCell>
+            <StyledTableCell align="right">Phone Number</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {tableData.map((row) => (
             <StyledTableRow key={row.firstname}>
               <StyledTableCell component="th" scope="row">
                 {row.firstname}
               </StyledTableCell>
               <StyledTableCell>{row.lastname}</StyledTableCell>
+              <StyledTableCell align="right">{row.address}</StyledTableCell>
               <StyledTableCell align="right">{row.email}</StyledTableCell>
               <StyledTableCell align="right">{row.phoneNumber}</StyledTableCell>
-              <StyledTableCell align="right">{row.address}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

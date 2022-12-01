@@ -1,6 +1,21 @@
 import React from "react";
 import { Box, Button, Card, styled, Typography } from "@mui/material";
 
+export const RequestMainBox = styled(Box)(({ theme }) => ({
+  width: "96%",
+  height: "100vh",
+  //   display: "flex",
+  //   flexDirection: "row",
+  marginLeft: theme.spacing(5),
+  paddingTop: theme.spacing(5),
+  [theme.breakpoints.down("md")]: {
+    width: "87.5%",
+  },
+  [theme.breakpoints.down("sm")]: {
+    width: "89%",
+  },
+}));
+
 export const HomeMainBox = styled(Box)(({ theme }) => ({
   width: "96%",
   height: "100vh",
@@ -65,4 +80,34 @@ export const ProfileTable = styled(Card)(({ theme }) => ({
   borderRadius: "8px",
   boxShadow:
     "-5px -5px 9px rgba(255,255,255,0.45), 5px 5px 9px rgba(94,104,121,0.3);",
+}));
+
+export const ConfigurationMainBox = styled(Box)(({ theme }) => ({
+  width: "96%",
+  height: "100vh",
+  //   display: "flex",
+  //   flexDirection: "row",
+  marginLeft: theme.spacing(5),
+  paddingTop: theme.spacing(5),
+  [theme.breakpoints.down("md")]: {
+    width: "87.5%",
+  },
+  [theme.breakpoints.down("sm")]: {
+    width: "89%",
+  },
+}));
+
+export const HistoryMainBox = styled(Box)(({ theme }) => ({
+  width: "96%",
+  height: "100vh",
+  //   display: "flex",
+  //   flexDirection: "row",
+  marginLeft: theme.spacing(5),
+  paddingTop: theme.spacing(5),
+  [theme.breakpoints.down("md")]: {
+    width: "87.5%",
+  },
+  [theme.breakpoints.down("sm")]: {
+    width: "89%",
+  },
 }));

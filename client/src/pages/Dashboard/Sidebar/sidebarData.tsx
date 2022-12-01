@@ -11,7 +11,7 @@ import { SidebarItem } from "./sidebarItem";
 export const SidebarData: SidebarItem[] = [
   {
     title: "Overview",
-    path: "/admin-dashboard/overview",
+    path: "/admin-dashboard/",
     icon: <AiOutlineHome />,
     iconClosed: <AiFillCaretDown />,
     iconOpened: <AiFillCaretUp />,
@@ -29,20 +29,20 @@ export const SidebarData: SidebarItem[] = [
     ],
   },
   {
-    title: "Order",
+    title: "Orders",
     path: "/admin-dashboard/order",
     icon: <FaOpencart />,
   },
-  {
-    title: "Assign",
-    path: "/admin-dashboard/assign",
-    icon: <FaMixer />,
-  },
-  {
-    title: "History",
-    path: "/admin-dashboard/history",
-    icon: <AiOutlineHistory />,
-  },
+  // {
+  //   title: "Assign",
+  //   path: "/admin-dashboard/assign",
+  //   icon: <FaMixer />,
+  // },
+  // {
+  //   title: "History",
+  //   path: "/admin-dashboard/history",
+  //   icon: <AiOutlineHistory />,
+  // },
   {
     title: "Configurations",
     path: "/admin-dashboard/configurations",

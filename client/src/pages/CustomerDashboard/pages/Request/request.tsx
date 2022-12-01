@@ -1,12 +1,13 @@
 import React from "react";
 import { Grid, Box, Typography, Card, TextField } from "@mui/material";
-import { RequestMainBox } from "./requestStyles";
+import { RequestMainBox } from "../../customerStyles";
+import Calendar from "./calendar";
 
 const Request = () => {
   return (
     <Box sx={{ backgroundColor: "#dde1e7" }}>
       <RequestMainBox>
-        <Grid container>
+        <Grid container spacing={3}>
           <Grid item xs={12} md={12}>
             <Typography
               variant="h4"
@@ -45,6 +46,7 @@ const Request = () => {
                 </Grid>
                 <Grid item xs={12} md={4}>
                   <TextField
+                    label="Phone Number"
                     sx={{
                       boxShadow:
                         "inset -5px -5px 9px rgba(255,255,255,0.45), inset 5px 5px 9px rgba(94,104,121,0.3);",
@@ -53,6 +55,7 @@ const Request = () => {
                 </Grid>
                 <Grid item xs={12} md={4}>
                   <TextField
+                    label="Preffered Time"
                     sx={{
                       boxShadow:
                         "inset -5px -5px 9px rgba(255,255,255,0.45), inset 5px 5px 9px rgba(94,104,121,0.3);",

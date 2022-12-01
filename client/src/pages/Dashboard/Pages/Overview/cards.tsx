@@ -15,6 +15,8 @@ const Main = styled.div`
 const Card = styled.div`
 background-color: black;
 color: white;
+display: flex;
+justify-content: space-evenly;
 padding: 1rem;
 height: 4rem;
 display: flex;
@@ -22,13 +24,31 @@ align-items: center
 }
 `;
 
-const Cards = () => {
+const Cards = (props: any) => {
+  console.log("a", props.data);
+
+  let arrData = props.data;
+  let newArrData = arrData.filter((curElem) => curElem.role === "customer");
+  console.log("newArrData", newArrData);
+
   return (
     <Main>
-      <Card>Total No. of Customers</Card>
-      <Card>Customer Orders</Card>
-      <Card>Workers Available</Card>
-      <Card>Assigned Orders</Card>
+      <Card>
+        Total No. of Customers:{" "}
+        <span style={{ fontSize: "2rem" }}>{newArrData.length}</span>
+      </Card>
+      <Card>
+        Customer Orders:{" "}
+        <span style={{ fontSize: "2rem" }}>{props.dataTicket.length}</span>
+      </Card>
+      <Card>
+        Workers Available{" "}
+        <span style={{ fontSize: "2rem" }}>{props.role.length}</span>
+      </Card>
+      <Card>
+        Assigned Orders:{" "}
+        <span style={{ fontSize: "2rem" }}>{props.assignedOrders.length}</span>
+      </Card>
     </Main>
   );
 };

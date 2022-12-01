@@ -15,40 +15,19 @@ import axios from "axios";
 import React, { useState, useEffect } from "react";
 import { GiPhotoCamera } from "react-icons/gi";
 import styled from "styled-components";
+import Lottie from "lottie-react";
+import request from "../../../../LottieFiles/Request.json";
 import {
   CardDataView,
   HomeMainBox,
   ProfileCard,
   ProfileTable,
-} from "./homeStyles";
-
-interface IFormInputValues {
-  address: string;
-  phoneNumber: string;
-  date: any;
-  // status: any
-}
-
-function getOrderValues() {
-  const storedValues = localStorage.getItem("TextField");
-  if (!storedValues)
-    return {
-      address: "",
-      phoneNumber: "",
-      date: "",
-    };
-  return JSON.parse(storedValues);
-}
+} from "../../customerStyles";
 
 const Home = () => {
   const [customerdata, setCustomerdata] = useState<any>([]);
   const [updatedAddress, setUpdatedAddress] = useState("");
   const [phoneNumber, setPhoneNumber] = useState<any>("");
-  const [values, setValues] = useState<IFormInputValues>({
-    address: "",
-    date: "",
-    phoneNumber: "",
-  });
 
   const postOrder = async (event: any) => {
     event.preventDefault();
@@ -111,89 +90,56 @@ const Home = () => {
     console.log("photo", customerdata.photo);
   }, []);
 
-  function handleChange(
-    event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
-  ) {
-    console.log(`Typed => ${event.target.value}`);
-
-    setValues((previousValues) => ({
-      ...previousValues,
-      [event.target.name]: event.target.value,
-    }));
-  }
-
   return (
     <Box sx={{ backgroundColor: "#dde1e7" }}>
       <HomeMainBox>
-        <Grid container xs={12} spacing={1}>
-          <Grid item md={12} xs={12} sx={{ position: "relative" }}>
-            {/* {customerdata?.photo[1] ? (
-              <Card>
-                <CardMedia
-                  component="img"
-                  image={customerdata.photo[1]}
-                  alt="cover photo"
-                  sx={{
-                    backgroundColor: "#dde1e7",
-                    height: "10rem",
-                    borderRadius: "8px",
-                    boxShadow:
-                      "-5px -5px 9px rgba(255,255,255,0.45), 5px 5px 9px rgba(94,104,121,0.3);",
-                  }}
-                />
-              </Card>
-            ) : null} */}
-            {/* console.log(customerdata.photo[1]) */}
-            <IconButton
-              color="primary"
-              aria-label="upload picture"
-              component="label"
-            >
-              <input
-                accept="image/*"
-                type="file"
-                onChange={(e) => postImage(e.target.files)}
-              />
-            </IconButton>
+        <Grid container xs={12} spacing={2} rowGap={2}>
+          <Grid
+            item
+            xs={12}
+            sx={{ m: "0 0 0 0", display: "flex", alignItems: "center", gap: 4 }}
+          >
             <Avatar
               alt="Remy Sharp"
-              // src={customerdata.photo[0]}
+              src={customerdata.photo}
               sx={{
-                width: 150,
-                height: 150,
-                position: "absolute",
-                top: "1rem",
-                right: "8rem",
+                width: 120,
+                height: 120,
+                border: "solid 5px #fff",
                 boxShadow:
                   "-5px -15px 9px rgba(255,255,255,0.45), 5px 5px 9px rgba(94,104,121,0.3);",
-                transform: "translateY(30%)",
               }}
             />
-          </Grid>
-          <Grid item xs={12} sx={{ m: "0 0 0 0" }}>
-            <Typography
-              variant="h4"
-              fontWeight={"bold"}
-              sx={{
-                display: "flex",
-                // ml: "1rem",
-                fontFamily: "'Poppins', sans-serif",
-              }}
-            >
-              Hello, {customerdata.firstname} !
-            </Typography>
-            <Grid item xs={12} sx={{ m: "0 0 0 0" }}>
+            <div>
               <Typography
-                variant="h5"
-                color={"gray"}
+                variant="h4"
+                fontWeight={"bold"}
                 sx={{
-                  // ml: "1rem",
+                  display: "flex",
                   fontFamily: "'Poppins', sans-serif",
                 }}
               >
-                WELCOME BACK TO ZERO WASTE MOVEMENT
+                Hello, {customerdata.firstname} !
               </Typography>
-            </Grid>
+              <Grid item xs={12} sx={{ m: "0 0 0 0" }}>
+                <Typography
+                  variant="h5"
+                  color={"gray"}
+                  sx={{
+                    fontFamily: "'Poppins', sans-serif",
+                  }}
+                >
+                  WELCOME BACK TO ZERO WASTE MOVEMENT
+                </Typography>
+              </Grid>
+            </div>
+          </Grid>
+
+          <Grid item md={2} xs={12} mt={6}>
+            <CardDataView>
+              <Lottie animationData={request} style={{ height: "15rem" }} />
+              <Button onClick={postOrder}>Make a Request</Button>
+            </CardDataView>
           </Grid>
 
           {/* <Grid item md={3} xs={12}>
@@ -264,15 +210,15 @@ const Home = () => {
               </Grid>
             </ProfileTable>
           </Grid> */}
-          <Grid item md={4} xs={12} marginTop={15}>
+          {/* <Grid item md={4} xs={12}>
             <CardDataView>Recent Order Placed: </CardDataView>
           </Grid>
-          <Grid item md={4} xs={12} marginTop={15}>
+          <Grid item md={4} xs={12}>
             <CardDataView>Total Order Placed: </CardDataView>
           </Grid>
-          <Grid item md={4} xs={12} marginTop={15}>
+          <Grid item md={4} xs={12}>
             <CardDataView>Recent Order Placed: </CardDataView>
-          </Grid>
+          </Grid> */}
         </Grid>
       </HomeMainBox>
     </Box>
