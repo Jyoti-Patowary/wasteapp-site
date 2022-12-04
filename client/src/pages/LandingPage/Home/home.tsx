@@ -128,7 +128,11 @@ function Home() {
             top: "50%",
             left: "50%",
             transform: "translate(-50%, -50%)",
-            fontSize: "5rem",
+            fontSize: {
+              xs: "2rem",
+              xl: "5rem",
+              md: "3rem",
+            },
             fontWeight: "600",
             color: "#fff",
           }}

@@ -27,27 +27,31 @@ align-items: center
 const Cards = (props: any) => {
   console.log("a", props.data);
 
-  let arrData = props.data;
-  let newArrData = arrData.filter((curElem) => curElem.role === "customer");
-  console.log("newArrData", newArrData);
+  // let arrData = props.data;
+  // let newArrData = arrData.filter((curElem) => curElem.role === "customer");
+  // console.log("newArrData", newArrData);
 
   return (
     <Main>
       <Card>
         Total No. of Customers:{" "}
-        <span style={{ fontSize: "2rem" }}>{newArrData.length}</span>
+        <span style={{ fontSize: "2rem" }}>{props.customersData.length}</span>
       </Card>
       <Card>
         Customer Orders:{" "}
-        <span style={{ fontSize: "2rem" }}>{props.dataTicket.length}</span>
+        <span style={{ fontSize: "2rem" }}>{props.assignedOrders.length}</span>
       </Card>
       <Card>
         Workers Available{" "}
         <span style={{ fontSize: "2rem" }}>{props.role.length}</span>
       </Card>
       <Card>
-        Assigned Orders:{" "}
-        <span style={{ fontSize: "2rem" }}>{props.assignedOrders.length}</span>
+        Accepted Orders:{" "}
+        <span style={{ fontSize: "2rem" }}>{props.dataTicket.length}</span>
+      </Card>
+      <Card>
+        Pending Orders:{" "}
+        <span style={{ fontSize: "2rem" }}>{props.dataTicket.length}</span>
       </Card>
     </Main>
   );

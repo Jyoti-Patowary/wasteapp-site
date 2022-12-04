@@ -45,7 +45,7 @@ export const AdminLogin = () => {
           // let { photo, ...data } = res.data;
           localStorage.setItem("userData", JSON.stringify(res.data));
           navigate(`/${role}-dashboard`);
-        } else {
+        } else {  
           throw new Error("A user must have a role assigned");
         }
       }

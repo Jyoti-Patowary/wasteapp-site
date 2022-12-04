@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const Ticket = require("../models/ticket.model");
+const { sendAcceptedEmail } = require("../config/emailAccount");
 
 const postTicket = asyncHandler(async (req, res) => {
   console.log("user", req.user);
@@ -44,12 +45,28 @@ const acceptTicket = asyncHandler(async (req, res) => {
         status: "isAssigned",
       },
     }).lean();
+    await sendAcceptedEmail(req.user.email, req.user.firstname);
     res.status(200).send({ ...ticket });
   } catch (error) {
     console.log(error);
     res.status(500).send("Server Error");
   }
 });
+
+const pendingTicket = async (req, res) => {
+  try {
+    let pending = await User.find({ status: "inProgress" }).exec();
+    // let allUsers = await User.find({ role: req.params.role }).exec();
+    res.json([
+      ...pending,
+      // token: generateToken(allUsers._id),
+    ]);
+    console.log("Hello", ...pending);
+  } catch (e) {
+    res.status(400);
+    throw new Error("Enable Find Users");
+  }
+};
 
 const modifyTicket = async (req, res) => {
   const updates = Object.keys(req.body);

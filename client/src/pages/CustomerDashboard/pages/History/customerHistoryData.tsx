@@ -56,8 +56,27 @@ export default function CustomerHistoryData() {
       },
     });
     setTicketTableData(ticketD.data);
+    console.log(ticketTableData);
   };
 
+  // const makeStyle = (status) => {
+  //   if (status === "Approved") {
+  //     return {
+  //       background: "rgb(145 254 159 / 47%)",
+  //       color: "green",
+  //     };
+  //   } else if (status === "Pending") {
+  //     return {
+  //       background: "#ffadad8f",
+  //       color: "red",
+  //     };
+  //   } else {
+  //     return {
+  //       background: "#59bfff",
+  //       color: "white",
+  //     };
+  //   }
+  // };
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -71,17 +90,17 @@ export default function CustomerHistoryData() {
           </TableRow>
         </TableHead>
         <TableBody>
-          {tableData.map((row) => (
-            <StyledTableRow key={row._id}>
-              <StyledTableCell component="th" scope="row">
-                {row.orderID}
-              </StyledTableCell>
-              <StyledTableCell>{row.address}</StyledTableCell>
-              <StyledTableCell>{row.date}</StyledTableCell>
-              <StyledTableCell>{row.pickedBy}</StyledTableCell>
-              {/* <StyledTableCell align="right">{row.address}</StyledTableCell> */}
+          {ticketTableData.map((row) => (
+            <StyledTableRow key={row.OrderID}>
+              <StyledTableCell>{row._id}</StyledTableCell>
             </StyledTableRow>
           ))}
+          {tableData.map((row) => (
+            <StyledTableRow key={row.Address}>
+              <StyledTableCell>{row.address}</StyledTableCell>
+            </StyledTableRow>
+          ))}
+
         </TableBody>
       </Table>
     </TableContainer>

@@ -2,6 +2,7 @@ const { hash } = require("bcrypt");
 const asyncHandler = require("express-async-handler");
 const User = require("../models/user.model");
 const generateToken = require("../utility/token");
+const { sendWelcomeEmail } = require("../config/emailAccount");
 
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
@@ -78,6 +79,8 @@ const registerUser = asyncHandler(async (req, res) => {
       photo,
     });
 
+    await sendWelcomeEmail(user.email, user.firstname);
+
     return res.status(201).json({
       _id: user._id,
       role: user.role,
@@ -95,13 +98,43 @@ const registerUser = asyncHandler(async (req, res) => {
   }
 });
 
-const getAllUsers = async (req, res) => {
+const getAllUsersData = async (req, res) => {
   try {
-    let allUsers = await User.find({}).lean();
+    let allUsers = await User.find({});
     res.json([
       ...allUsers,
       // token: generateToken(allUsers._id),
     ]);
+  } catch (e) {
+    res.status(400);
+    throw new Error("Enable Find Users");
+  }
+};
+
+const getAllWorkers = async (req, res) => {
+  try {
+    let allUsers = await User.find({ role: "worker" }).exec();
+    // let allUsers = await User.find({ role: req.params.role }).exec();
+    res.json([
+      ...allUsers,
+      // token: generateToken(allUsers._id),
+    ]);
+    console.log("Hello", ...allUsers);
+  } catch (e) {
+    res.status(400);
+    throw new Error("Enable Find Users");
+  }
+};
+
+const getCustomers = async (req, res) => {
+  try {
+    let allUsers = await User.find({ role: "customer" }).exec();
+    // let allUsers = await User.find({ role: req.params.role }).exec();
+    res.json([
+      ...allUsers,
+      // token: generateToken(allUsers._id),
+    ]);
+    console.log("Hello", ...allUsers);
   } catch (e) {
     res.status(400);
     throw new Error("Enable Find Users");
@@ -172,7 +205,9 @@ module.exports = {
   updateUserProfile,
   registerUser,
   deleteUserProfile,
-  getAllUsers,
+  getAllWorkers,
+  getCustomers,
   getUser,
   uploadPhoto,
+  getAllUsersData,
 };

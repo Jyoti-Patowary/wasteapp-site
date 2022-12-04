@@ -13,7 +13,13 @@ const Nav = styled.div`
   justify-content: space-between;
   align-items: center;
   height: 5rem;
-  background-color: black;
+  background-color: #00dbde;
+  background-image: linear-gradient(90deg, #00dbde 0%, #fc00ff 100%);
+  box-shadow: 5px 5px 9px #ccc;
+  position: fixed;
+  top: 0;
+  width: 100vw;
+  // margin-bottom: 25rem;
 `;
 
 const SidebarNav = styled.div<{ sidebar: boolean }>`
@@ -49,7 +55,7 @@ const SidebarWrap = styled.div``;
 const Sidebar: FC = () => {
   const [sidebar, setSidebar] = useState(false);
   const showSidebar = () => setSidebar(!sidebar);
-  const [open, setOpen] = React.useState(false);
+  const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
   const handleClick = () => {

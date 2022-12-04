@@ -7,7 +7,7 @@ const History = () => {
   return (
     <Box sx={{ backgroundColor: "#dde1e7" }}>
       <HistoryMainBox>
-        <Grid container spacing={3}>
+        <Grid container spacing={3} mt={7}>
           <Grid item xs={12} md={12}>
             <Typography
               variant="h4"

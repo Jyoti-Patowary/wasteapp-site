@@ -5,7 +5,7 @@ import { Box, Grid, Typography } from "@mui/material";
 import CustomizedTables from "./dataTable";
 
 const Main = styled.div`
-  margin: 2rem;
+  margin: 7rem 2rem 0 2rem;
 `;
 
 const Customer = () => {

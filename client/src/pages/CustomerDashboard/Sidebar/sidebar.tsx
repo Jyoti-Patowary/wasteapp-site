@@ -16,7 +16,8 @@ const Nav = styled.div`
   background-color: #00dbde;
   background-image: linear-gradient(90deg, #00dbde 0%, #fc00ff 100%);
   box-shadow: 5px 5px 9px #ccc;
-  position: relative;
+  position: fixed;
+  width: 100vw;
 `;
 
 const SidebarNav = styled.div<{ sidebar: boolean }>`

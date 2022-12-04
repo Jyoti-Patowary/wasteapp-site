@@ -7,9 +7,14 @@ import Cards from "./cards";
 import { Chart } from "./chart";
 import { PieChartOverview } from "./pieChart";
 import { Grid, Typography } from "@mui/material";
+import {
+  getCustomers,
+  getTickets,
+  getWorkers,
+} from "../../../../apis/dashboard";
 
 const Main = styled.div`
-  margin: 2rem auto 2rem auto;
+  margin: 7rem auto 2rem auto;
 `;
 
 const Heading = styled.div`
@@ -27,49 +32,61 @@ const Overview = () => {
   const [allTicketData, setAllTicketData] = React.useState([]);
   const [workers, setWorkers] = React.useState([]);
   const [assignedTickets, setAssignedTickets] = React.useState([]);
+  const [customerData, setCustomerData] = React.useState([]);
+  const [acceptedTicket, setAcceptedTicket] = React.useState([]);
 
-  const getData: any = async () => {
-    const TOKEN_KEY = "access_token";
-    const accessToken = localStorage.getItem(TOKEN_KEY);
+  const getData = async () => {
     try {
-      const url = "http://localhost:4000/users";
-      const ticketUrl = "http://localhost:4000/tickets";
+      const [workers, tickets, customers] = await Promise.all([
+        getWorkers(),
+        getTickets(),
+        getCustomers(),
+      ]);
+      console.log(workers, tickets);
 
-      const res = await axios.get(url, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      console.log({ res });
+      // setAllData(users.data);
+      // setAllTicketData(tickets.data);
 
-      const resTicket = await axios.get(ticketUrl, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      console.log(resTicket);
+      setWorkers(workers.data);
 
-      if (res.status === 200) {
-        setAllData(res.data);
-        setAllTicketData(resTicket.data);
+      setAssignedTickets(tickets.data);
 
-        let workerData = res.data.filter(function checkRole(item) {
-          return item.role.user;
-        });
-        setWorkers(workerData);
+      setCustomerData(customers.data);
 
-        let ticketAssigned = resTicket.data.filter(function checkStatus(item) {
-          return item.status.ticket;
-        });
-        setAssignedTickets(ticketAssigned);
+      // const res = await axios.get(url, {
+      //   headers: {
+      //     Authorization: `Bearer ${accessToken}`,
+      //   }
+      // });
+      // console.log({ res });
 
-        console.log(workers);
-      }
+      // const resTicket = await axios.get(ticketUrl, {
+      //   headers: {
+      //     Authorization: `Bearer ${accessToken}`,
+      //   },
+      // });
+      // console.log(resTicket);
+
+      // if (res.status === 200) {
+      //   setAllData(res.data);
+      //   setAllTicketData(resTicket.data);
+
+      //   let workerData = res.data.filter(function checkRole(item) {
+      //     return item.role.user;
+      //   });
+      //   setWorkers(workerData);
+
+      //   let ticketAssigned = resTicket.data.filter(function checkStatus(item) {
+      //     return item.status.ticket;
+      //   });
+      //   setAssignedTickets(ticketAssigned);
+
+      //   console.log(workers);
+      //}
     } catch (error) {}
   };
 
   useEffect(() => {
-    // const userData = JSON.parse(localStorage.getItem("userData") as string);
     getData();
   }, []);
 
@@ -83,6 +100,7 @@ const Overview = () => {
           dataTicket={allTicketData}
           role={workers}
           assignedOrders={assignedTickets}
+          customersData={customerData}
         />
         <Grid container>
           <Grid item xs={12} md={6}></Grid>

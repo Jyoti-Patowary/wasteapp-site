@@ -93,19 +93,101 @@ const Home = () => {
   return (
     <Box sx={{ backgroundColor: "#dde1e7" }}>
       <HomeMainBox>
-        <Grid container xs={12} spacing={2} rowGap={2}>
+        <Grid
+          container
+          mt={7}
+          spacing={2}
+          sx={{
+            alignItems: "center",
+            height: "500px",
+          }}
+        >
+          <Grid item xs={12} sm={12} md={6}>
+            <Box
+              sx={{
+                m: "0 0 0 0",
+                display: "flex",
+                alignItems: "center",
+                gap: 4,
+              }}
+            >
+              <Avatar
+                alt="Avatar"
+                src={customerdata.photo}
+                sx={{
+                  width: 120,
+                  height: 120,
+                  border: "solid 5px #fff",
+                  zIndex: "-10px",
+                  boxShadow:
+                    "-5px -15px 9px rgba(255,255,255,0.45), 5px 5px 9px rgba(94,104,121,0.3);",
+                }}
+              />
+              <div>
+                <Typography
+                  variant="h4"
+                  fontWeight={"bold"}
+                  sx={{
+                    display: "flex",
+                    fontFamily: "'Poppins', sans-serif",
+                  }}
+                >
+                  Hello, {customerdata.firstname} !
+                </Typography>
+                <Grid item xs={12} sx={{ m: "0 0 0 0" }}>
+                  <Typography
+                    variant="h5"
+                    color={"gray"}
+                    sx={{
+                      fontFamily: "'Poppins', sans-serif",
+                    }}
+                  >
+                    WELCOME BACK TO ZERO WASTE MOVEMENT
+                  </Typography>
+                </Grid>
+              </div>
+            </Box>
+          </Grid>
+          <Grid item xs={12} sm={12} md={6}>
+            <Box>
+              <CardDataView
+                style={{
+                  width: "90%",
+                }}
+              >
+                <Lottie
+                  animationData={request}
+                  style={{ height: "15rem", paddingTop: "1rem" }}
+                />
+                <Button
+                  sx={{
+                    height: "80px",
+                    fontSize: "24px",
+                    fontWeight: "bold",
+                    color: "#fc00ff",
+                  }}
+                  onClick={postOrder}
+                >
+                  Make a Request
+                </Button>
+              </CardDataView>
+            </Box>
+          </Grid>
+        </Grid>
+        {/* <Grid container xs={12} spacing={2} rowGap={2} mt={7}>
           <Grid
             item
             xs={12}
             sx={{ m: "0 0 0 0", display: "flex", alignItems: "center", gap: 4 }}
           >
             <Avatar
-              alt="Remy Sharp"
+              alt="Avatar"
               src={customerdata.photo}
               sx={{
                 width: 120,
                 height: 120,
                 border: "solid 5px #fff",
+                zIndex: "-10px",
                 boxShadow:
                   "-5px -15px 9px rgba(255,255,255,0.45), 5px 5px 9px rgba(94,104,121,0.3);",
               }}
@@ -134,15 +216,19 @@ const Home = () => {
               </Grid>
             </div>
           </Grid>
-
+          <Grid item md={12} xs={12} mt={6}>
+            <CardDataView></CardDataView>
+          </Grid>
           <Grid item md={2} xs={12} mt={6}>
             <CardDataView>
-              <Lottie animationData={request} style={{ height: "15rem" }} />
-              <Button onClick={postOrder}>Make a Request</Button>
+              <Lottie
+                animationData={request}
+                style={{ height: "15rem", paddingTop: "1rem" }}
+              />
+              <Button onClick={postOrder} >Make a Request</Button>
             </CardDataView>
-          </Grid>
-
-          {/* <Grid item md={3} xs={12}>
+          </Grid> */}
+        {/* <Grid item md={3} xs={12}>
             <ProfileTable>
               <Grid
                 container
@@ -210,7 +296,7 @@ const Home = () => {
               </Grid>
             </ProfileTable>
           </Grid> */}
-          {/* <Grid item md={4} xs={12}>
+        {/* <Grid item md={4} xs={12}>
             <CardDataView>Recent Order Placed: </CardDataView>
           </Grid>
           <Grid item md={4} xs={12}>
@@ -219,7 +305,7 @@ const Home = () => {
           <Grid item md={4} xs={12}>
             <CardDataView>Recent Order Placed: </CardDataView>
           </Grid> */}
-        </Grid>
+        {/* </Grid> */}
       </HomeMainBox>
     </Box>
 

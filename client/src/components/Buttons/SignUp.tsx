@@ -19,18 +19,37 @@ import FormControl from "@mui/material/FormControl";
 import FormLabel from "@mui/material/FormLabel";
 
 const style = {
-  position: "absolute" as "absolute",
+  position: "absolute",
   top: "50%",
+
   left: "50%",
+  // ml: "auto",
+  // mr: "auto",
   transform: "translate(-50%, -50%)",
-  width: "30%",
-  // height: "100%",
+  margin: "auto",
+  // marginRight:""
+  // width: {
+  //   xl: "60%",
+  //   xs: "30%",
+  // },
+  width: {
+    xs: "80%",
+    xl: "35%",
+  },
+
+  overflow: "scroll",
+  overflowX: "clip",
+  height: "80%",
   bgcolor: "background.paper",
-  border: "2px solid #000",
+  // border: "2px solid #000",
   boxShadow: 24,
-  m: "0 10px",
+  // m: "0 10px",
   p: 4,
   borderRadius: "10px",
+
+  // "@media max-width(480px)": {
+  //   padding: "5px",
+  // },
 };
 
 interface IFormInputValues {
@@ -141,160 +160,168 @@ const SignUp = () => {
           Signup
         </Button>
       </Grid>
-      <Modal
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
+      <Box
+        sx={{
+          width: "100%",
+          padding: "auto",
+          // border: "2px solid red",
+        }}
       >
-        <Grid container sx={style} rowGap={2}>
-          <Grid item xs={12}>
-            <Typography variant="h4" fontWeight={"bold"}>
-              Sign Up
-            </Typography>
-          </Grid>
-          <Grid item xs={12}>
-            <Divider sx={{ mb: 2 }} />
-          </Grid>
-          <Grid item xs={12}>
-            <FormControl>
-              <FormLabel id="demo-controlled-radio-buttons-group">
-                Who are you ?
-              </FormLabel>
-              <RadioGroup
-                aria-labelledby="demo-controlled-radio-buttons-group"
-                name="controlled-radio-buttons-group"
-                value={selectedValue}
-                onChange={handleRadioBtn}
-                style={{ display: "flex", flexDirection: "row" }}
+        <Modal
+          open={open}
+          onClose={handleClose}
+          aria-labelledby="modal-modal-title"
+          aria-describedby="modal-modal-description"
+        >
+          <Grid container sx={style} rowGap={2}>
+            <Grid item xs={12}>
+              <Typography variant="h4" fontWeight={"bold"}>
+                Sign Up
+              </Typography>
+            </Grid>
+            <Grid item xs={12}>
+              <Divider sx={{ mb: 2 }} />
+            </Grid>
+            <Grid item xs={12}>
+              <FormControl>
+                <FormLabel id="demo-controlled-radio-buttons-group">
+                  Who are you ?
+                </FormLabel>
+                <RadioGroup
+                  aria-labelledby="demo-controlled-radio-buttons-group"
+                  name="controlled-radio-buttons-group"
+                  value={selectedValue}
+                  onChange={handleRadioBtn}
+                  style={{ display: "flex", flexDirection: "row" }}
+                >
+                  <FormControlLabel
+                    value="customer"
+                    control={<Radio />}
+                    label="Customer"
+                  />
+                  <FormControlLabel
+                    value="worker"
+                    control={<Radio />}
+                    label="Worker"
+                  />
+                </RadioGroup>
+              </FormControl>
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                autoComplete="given-name"
+                name="firstname"
+                required
+                id="firstname"
+                label="First Name"
+                autoFocus
+                value={values.firstname}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                required
+                id="lastname"
+                label="Last Name"
+                name="lastname"
+                autoComplete="family-name"
+                value={values.lastname}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                sx={{ mt: "20px" }}
+                required
+                fullWidth
+                id="email"
+                label="Email Address"
+                name="email"
+                autoComplete="email"
+                value={values.email}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                sx={{ mt: "20px" }}
+                required
+                fullWidth
+                name="password"
+                label="Password"
+                type="password"
+                id="password"
+                autoComplete="new-password"
+                value={values.password}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                sx={{ mt: "20px" }}
+                required
+                fullWidth
+                name="confirmPassword"
+                label="Confirm Password"
+                type="password"
+                id="confirmPassword"
+                autoComplete="confirmPassword"
+                value={values.confirmPassword}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                sx={{ mt: "20px" }}
+                required
+                fullWidth
+                name="phoneNumber"
+                label="Phone Number"
+                type="phoneNumber"
+                id="phoneNumber"
+                autoComplete="phoneNumber"
+                value={values.phoneNumber}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                sx={{ mt: "20px" }}
+                required
+                fullWidth
+                name="address"
+                label="Address"
+                type="address"
+                id="address"
+                autoComplete="address"
+                value={values.address}
+                onChange={handleChange}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <input
+                type="file"
+                onChange={(e) => handleFileChange(e.target.files)}
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <Button
+                fullWidth
+                sx={{
+                  borderRadius: "10px",
+                  mt: "2rem",
+                  bgcolor: "blueviolet",
+                  color: "whitesmoke",
+                }}
+                onClick={() => handleSubmit()}
               >
-                <FormControlLabel
-                  value="customer"
-                  control={<Radio />}
-                  label="Customer"
-                />
-                <FormControlLabel
-                  value="worker"
-                  control={<Radio />}
-                  label="Worker"
-                />
-              </RadioGroup>
-            </FormControl>
+                Submit
+              </Button>
+            </Grid>
           </Grid>
-          <Grid item xs={6}>
-            <TextField
-              autoComplete="given-name"
-              name="firstname"
-              required
-              id="firstname"
-              label="First Name"
-              autoFocus
-              value={values.firstname}
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={6}>
-            <TextField
-              required
-              id="lastname"
-              label="Last Name"
-              name="lastname"
-              autoComplete="family-name"
-              value={values.lastname}
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              sx={{ mt: "20px" }}
-              required
-              fullWidth
-              id="email"
-              label="Email Address"
-              name="email"
-              autoComplete="email"
-              value={values.email}
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              sx={{ mt: "20px" }}
-              required
-              fullWidth
-              name="password"
-              label="Password"
-              type="password"
-              id="password"
-              autoComplete="new-password"
-              value={values.password}
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              sx={{ mt: "20px" }}
-              required
-              fullWidth
-              name="confirmPassword"
-              label="Confirm Password"
-              type="password"
-              id="confirmPassword"
-              autoComplete="confirmPassword"
-              value={values.confirmPassword}
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              sx={{ mt: "20px" }}
-              required
-              fullWidth
-              name="phoneNumber"
-              label="Phone Number"
-              type="phoneNumber"
-              id="phoneNumber"
-              autoComplete="phoneNumber"
-              value={values.phoneNumber}
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <TextField
-              sx={{ mt: "20px" }}
-              required
-              fullWidth
-              name="address"
-              label="Address"
-              type="address"
-              id="address"
-              autoComplete="address"
-              value={values.address}
-              onChange={handleChange}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <input
-              type="file"
-              onChange={(e) => handleFileChange(e.target.files)}
-            />
-          </Grid>
-          <Grid item xs={12}>
-            <Button
-              fullWidth
-              sx={{
-                borderRadius: "10px",
-                mt: "2rem",
-                bgcolor: "blueviolet",
-                color: "whitesmoke",
-              }}
-              onClick={() => handleSubmit()}
-            >
-              Submit
-            </Button>
-          </Grid>
-        </Grid>
-      </Modal>
+        </Modal>
+      </Box>
     </Grid>
   );
 };

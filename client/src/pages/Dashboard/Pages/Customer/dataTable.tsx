@@ -39,7 +39,7 @@ export default function CustomizedTables() {
   }, []);
 
   const fetchData = async () => {
-    let res = await axios.get("http://localhost:4000/users", {
+    let res = await axios.get("http://localhost:4000/allcustomers", {
       headers: {
         Authorization: `Bearer ${token}`,
       },

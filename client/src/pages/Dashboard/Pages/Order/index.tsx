@@ -4,7 +4,7 @@ import { Box, Grid, Typography } from "@mui/material";
 import OrderDataTable from "./orderDataTable";
 
 const Main = styled.div`
-  margin: 2rem;
+  margin: 7rem 2rem 0 2rem;
 `;
 const Order = () => {
   return (

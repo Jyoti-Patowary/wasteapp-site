@@ -1,4 +1,4 @@
-import * as React from "react";
+import { useEffect, useState } from "react";
 import { styled } from "@mui/material/styles";
 import Table from "@mui/material/Table";
 import TableBody from "@mui/material/TableBody";
@@ -7,6 +7,7 @@ import TableContainer from "@mui/material/TableContainer";
 import TableHead from "@mui/material/TableHead";
 import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
+import axios from "axios";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
@@ -28,22 +29,24 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-function createData(
-  firstname: string = " ",
-  lastname: string = " ",
-  email: string = " ",
-  phoneNumber: number = 1,
-  address: string = "1"
-) {
-  return { firstname, lastname, email, phoneNumber, address };
-}
+export default function WorkerDataTable() {
+  const [tableData, setTableData] = useState<any>([]);
 
-const rows = [
-  createData("Frozen yoghurt", "lastname", "email", 7854556, "address"),
-];
+  const token = localStorage.getItem("access_token");
 
-export default function WorkerDataTable(props) {
-  // const [tableData, setTableData] = useState([]);
+  useEffect(() => {
+    fetchData();
+  }, []);
+
+  const fetchData = async () => {
+    let res = await axios.get("http://localhost:4000/workers", {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    //   console.log("res,...", res.data);
+    setTableData(res.data);
+  };
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
@@ -57,7 +60,7 @@ export default function WorkerDataTable(props) {
           </TableRow>
         </TableHead>
         <TableBody>
-          {rows.map((row) => (
+          {tableData.map((row) => (
             <StyledTableRow key={row.firstname}>
               <StyledTableCell component="th" scope="row">
                 {row.firstname}

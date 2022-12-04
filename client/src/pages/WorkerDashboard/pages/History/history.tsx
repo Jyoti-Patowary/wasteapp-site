@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Button } from "@mui/material";
+import { Button, Box } from "@mui/material";
 import axios from "axios";
 import styled from "styled-components";
 
@@ -48,23 +48,25 @@ const History = () => {
     status();
   }, []);
   return (
-    <Main>
-      {tickets.map((ticket: any, index) => {
-        return (
-          <Card key={index}>
-            <Button
-              sx={{
-                color: "white",
-              }}
-              disabled={!!ticket.receiver}
-              onClick={() => handleClick(ticket._id)}
-            >
-              {!!ticket.receiver ? "Accepted" : "Accept"}
-            </Button>
-          </Card>
-        );
-      })}
-    </Main>
+    <Box sx={{ backgroundColor: "#dde1e7" }}>
+      <Main>
+        {tickets.map((ticket: any, index) => {
+          return (
+            <Card key={index}>
+              <Button
+                sx={{
+                  color: "white",
+                }}
+                disabled={!!ticket.receiver}
+                onClick={() => handleClick(ticket._id)}
+              >
+                {!!ticket.receiver ? "Accepted" : "Accept"}
+              </Button>
+            </Card>
+          );
+        })}
+      </Main>
+    </Box>
   );
 };
 
