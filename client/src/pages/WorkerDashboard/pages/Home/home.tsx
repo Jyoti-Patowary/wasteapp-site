@@ -47,7 +47,7 @@ const Home = () => {
   const [allTicketsCount, setAllTicketsCount] = React.useState<any>(null);
 
   //get id
-  const userId = localStorage.getItem("id");
+  const userId = sessionStorage.getItem("id");
 
   const functionSetAllTicketsCount = async () => {
     try {
@@ -71,7 +71,7 @@ const Home = () => {
     const fileReader = new FileReader();
     fileReader.readAsDataURL(file!);
     const TOKEN_KEY = "access_token";
-    const accessToken = localStorage.getItem(TOKEN_KEY);
+    const accessToken = sessionStorage.getItem(TOKEN_KEY);
 
     fileReader.onloadend = async () => {
       const data = await axios.post(
@@ -91,7 +91,7 @@ const Home = () => {
   };
 
   useEffect(() => {
-    const userData = JSON.parse(localStorage.getItem("userData") as string);
+    const userData = JSON.parse(sessionStorage.getItem("userData") as string);
     console.log({ userData });
     // let role = userData.data.role.toLowerCase();
     setCustomerdata(userData);

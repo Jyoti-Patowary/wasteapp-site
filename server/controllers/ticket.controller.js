@@ -1,14 +1,33 @@
 const asyncHandler = require("express-async-handler");
 const Ticket = require("../models/ticket.model");
 const { sendAcceptedEmail } = require("../config/emailAccount");
+const { default: ShortUniqueId } = require("short-unique-id");
+
+let uid = new ShortUniqueId(4);
 
 const postTicket = asyncHandler(async (req, res) => {
-  console.log("user", req.user);
-  const ticket = new Ticket({ ...req.body, raiser: req.user.id });
+  /**Check if user already has a open request */
 
   try {
-    await ticket.save();
-    res.status(201).send(ticket);
+    const existingOpenTicket = await Ticket.count({
+      raiser: req.user.id,
+      status: "isOpen",
+    });
+    if (existingOpenTicket) {
+      res.status(403).json({
+        message:
+          "You already have a open ticket. You can only raise a ticket if there is no open ticket",
+      });
+    } else {
+      const ticket = new Ticket({
+        ...req.body,
+        raiser: req.user.id,
+        ticketNo: uid(),
+      });
+
+      await ticket.save();
+      res.status(201).send(ticket);
+    }
   } catch (e) {
     res.status(400).send(e);
   }
@@ -16,7 +35,16 @@ const postTicket = asyncHandler(async (req, res) => {
 
 const getAllTicket = async (req, res) => {
   try {
-    const ticket = await Ticket.find({});
+    const search = req.query.search;
+    const filter = req.query.filter;
+    let condition = {};
+    if (search) {
+      condition = { ...condition, ticketNo: new RegExp(search, "gi") };
+    }
+    if (filter) {
+      condition = { ...condition, status: filter };
+    }
+    const ticket = await Ticket.find(condition).sort({ _id: -1 });
     res.send(ticket);
   } catch (e) {
     res.status(400).send();
@@ -45,7 +73,24 @@ const acceptTicket = asyncHandler(async (req, res) => {
         status: "isAssigned",
       },
     }).lean();
-    await sendAcceptedEmail(req.user.email, req.user.firstname);
+    // await sendAcceptedEmail(req.user.email, req.user.firstname);
+    res.status(200).send({ ...ticket });
+  } catch (error) {
+    console.log(error);
+    res.status(500).send("Server Error");
+  }
+});
+
+const closeTicket = asyncHandler(async (req, res) => {
+  const id = req.params.id;
+  try {
+    const ticket = await Ticket.findByIdAndUpdate(id, {
+      $set: {
+        receiver: req.user.id,
+        status: "isClosed",
+      },
+    }).lean();
+    // await sendCloseEmail(req.user.email, req.user.firstname);
     res.status(200).send({ ...ticket });
   } catch (error) {
     console.log(error);
@@ -133,9 +178,14 @@ const getTicketsCount = async (req, res) => {
       status: "isAssigned",
     });
 
+    const totalAcceptedOrders = await Ticket.count({
+      $or: [{ status: "isAssigned" }, { status: "isClosed" }],
+    });
+
     const responseToSend = {
-      noOfOpenOrders: noOfOpenOrders,
-      noOfAcceptedOrders: noOfAcceptedOrders,
+      noOfOpenOrders,
+      noOfAcceptedOrders,
+      totalAcceptedOrders,
     };
 
     res.send(responseToSend);
@@ -153,4 +203,5 @@ module.exports = {
   acceptTicket,
   getTicketsByUserId,
   getTicketsCount,
+  closeTicket,
 };

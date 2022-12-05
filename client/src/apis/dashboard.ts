@@ -11,3 +11,7 @@ export const getTickets = async () => {
 export const getCustomers = async () => {
   return await API.get("/allcustomers");
 };
+
+export const getTicketCounts = async (id) => {
+  return await API.get(`/tickets/count/${id}`);
+};

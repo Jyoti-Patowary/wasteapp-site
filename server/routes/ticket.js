@@ -9,6 +9,7 @@ const {
   acceptTicket,
   getTicketsByUserId,
   getTicketsCount,
+  closeTicket,
 } = require("../controllers/ticket.controller");
 const { protect } = require("../middleware/auth.middleware");
 // const { route } = require("./dispute");
@@ -18,6 +19,7 @@ router.route("/tickets/user/:id").get(getTicketsByUserId);
 router.post("/create/ticket", protect, postTicket);
 router.route("/ticket/:id").get(getTicket);
 router.post("/ticket/accepted/:id", protect, acceptTicket);
+router.post("/ticket/close/:id", protect, closeTicket);
 router.route("/update-ticket/:id").put(modifyTicket);
 router.route("/delete-ticket/:id").delete(deleteTicket);
 

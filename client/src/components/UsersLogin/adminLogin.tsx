@@ -16,7 +16,7 @@ export const AdminLogin = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState();
   const [token, setToken] = useState(() =>
-    localStorage.getItem("access_token")
+    sessionStorage.getItem("access_token")
   );
 
   const navigate = useNavigate();
@@ -35,17 +35,17 @@ export const AdminLogin = () => {
         console.log(res.data.role);
 
         const TOKEN_KEY = "access_token";
-        localStorage.setItem(TOKEN_KEY, res.data.token);
-        localStorage.setItem("id", res.data._id);
+        sessionStorage.setItem(TOKEN_KEY, res.data.token);
+        sessionStorage.setItem("id", res.data._id);
 
-        const accessToken = localStorage.getItem(TOKEN_KEY);
+        const accessToken = sessionStorage.getItem(TOKEN_KEY);
         console.log(accessToken);
         if (accessToken && res.data.role) {
           let role = res.data.role.toLowerCase();
           // let { photo, ...data } = res.data;
-          localStorage.setItem("userData", JSON.stringify(res.data));
+          sessionStorage.setItem("userData", JSON.stringify(res.data));
           navigate(`/${role}-dashboard`);
-        } else {  
+        } else {
           throw new Error("A user must have a role assigned");
         }
       }

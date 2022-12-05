@@ -13,12 +13,15 @@ const Main = styled.div`
 `;
 
 const Card = styled.div`
-background-color: black;
+background-color: dodgerblue;
+border-radius : 8px;
+box-shadow : 5px 5px 12px #ccc;
 color: white;
-display: flex;
+display: block !important;
+text-align : center;
 justify-content: space-evenly;
 padding: 1rem;
-height: 4rem;
+// height: 4rem;
 display: flex;
 align-items: center
 }
@@ -34,24 +37,34 @@ const Cards = (props: any) => {
   return (
     <Main>
       <Card>
-        Total No. of Customers:{" "}
-        <span style={{ fontSize: "2rem" }}>{props.customersData.length}</span>
+        <div style={{ fontSize: "4rem", fontWeight: "bold" }}>
+          {props.customersData.length}
+        </div>
+        Total No. of Customers
       </Card>
       <Card>
-        Customer Orders:{" "}
-        <span style={{ fontSize: "2rem" }}>{props.assignedOrders.length}</span>
+        <div style={{ fontSize: "4rem", fontWeight: "bold" }}>
+          {props.assignedOrders.length}
+        </div>
+        Customer Orders
       </Card>
       <Card>
+        <div style={{ fontSize: "4rem", fontWeight: "bold" }}>
+          {props.role.length}
+        </div>
         Workers Available{" "}
-        <span style={{ fontSize: "2rem" }}>{props.role.length}</span>
       </Card>
       <Card>
-        Accepted Orders:{" "}
-        <span style={{ fontSize: "2rem" }}>{props.dataTicket.length}</span>
+        <div style={{ fontSize: "4rem", fontWeight: "bold" }}>
+          {props.acceptedTickets}
+        </div>
+        Accepted Orders
       </Card>
       <Card>
-        Pending Orders:{" "}
-        <span style={{ fontSize: "2rem" }}>{props.dataTicket.length}</span>
+        <div style={{ fontSize: "4rem", fontWeight: "bold" }}>
+          {props.pendingTickets}
+        </div>
+        Pending Orders
       </Card>
     </Main>
   );

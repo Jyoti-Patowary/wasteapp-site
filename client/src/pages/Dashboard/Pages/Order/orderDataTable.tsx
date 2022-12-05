@@ -32,7 +32,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
 export default function OrderDataTable() {
   const [tableData, setTableData] = useState<any>([]);
 
-  const token = localStorage.getItem("access_token");
+  const token = sessionStorage.getItem("access_token");
 
   useEffect(() => {
     fetchData();

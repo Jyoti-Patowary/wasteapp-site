@@ -13,6 +13,7 @@ import { Grid, Typography } from "@mui/material";
 
 import {
   getCustomers,
+  getTicketCounts,
   getTickets,
   getWorkers,
 } from "../../../../apis/dashboard";
@@ -37,17 +38,19 @@ const Overview = () => {
   const [workers, setWorkers] = React.useState([]);
   const [assignedTickets, setAssignedTickets] = React.useState([]);
   const [customerData, setCustomerData] = React.useState([]);
-  const [acceptedTicket, setAcceptedTicket] = React.useState([]);
+  const [totalAcceptedTicket, setTotalAcceptedTicket] = React.useState(0);
+  const [pendingTickets, setPendingTickets] = React.useState(0);
   const [loading, setLoading] = React.useState(false);
 
   const getData = async () => {
     try {
-      const [workers, tickets, customers] = await Promise.all([
+      const [workers, tickets, customers, ticketCounts] = await Promise.all([
         getWorkers(),
         getTickets(),
         getCustomers(),
+        getTicketCounts(sessionStorage.getItem("id")),
       ]);
-      console.log(workers, tickets);
+      console.log(workers, { tickets });
 
       // setAllData(users.data);
       // setAllTicketData(tickets.data);
@@ -57,6 +60,10 @@ const Overview = () => {
       setAssignedTickets(tickets.data);
 
       setCustomerData(customers.data);
+
+      setTotalAcceptedTicket(ticketCounts.data.totalAcceptedOrders);
+
+      setPendingTickets(ticketCounts.data.noOfOpenOrders);
 
       // const res = await axios.get(url, {
       //   headers: {
@@ -120,10 +127,12 @@ const Overview = () => {
             role={workers}
             assignedOrders={assignedTickets}
             customersData={customerData}
+            acceptedTickets={totalAcceptedTicket}
+            pendingTickets={pendingTickets}
           />
         )}
 
-        <Grid container>
+        {/* <Grid container>
           <Grid item xs={12} md={6}></Grid>
           <Grid item xs={12} md={6}>
             <Chart
@@ -133,7 +142,7 @@ const Overview = () => {
               assignedOrders={assignedTickets}
             />
           </Grid>
-        </Grid>
+        </Grid> */}
       </Main>
     </>
   );

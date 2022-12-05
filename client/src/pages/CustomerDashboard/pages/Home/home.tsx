@@ -9,9 +9,11 @@ import {
   Avatar,
   CardMedia,
   Card,
+  Snackbar,
+  AlertColor,
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
-import axios from "axios";
+import axios, { Axios, AxiosError } from "axios";
 import React, { useState, useEffect } from "react";
 import { GiPhotoCamera } from "react-icons/gi";
 import styled from "styled-components";
@@ -23,19 +25,30 @@ import {
   ProfileCard,
   ProfileTable,
 } from "../../customerStyles";
+import History from "../History/history";
+import CardContent from "@mui/material/CardContent";
+import { Alert } from "@mui/lab";
 
 const Home = () => {
   const [customerdata, setCustomerdata] = useState<any>([]);
   const [updatedAddress, setUpdatedAddress] = useState("");
   const [phoneNumber, setPhoneNumber] = useState<any>("");
+  const [toggler, setToggler] = useState(false);
+  const [open, setOpen] = useState({
+    open: false,
+    type: "",
+    message: "",
+  });
+
+  const handleClose = () =>
+    setOpen({ open: !open.open, type: open.type, message: open.message });
 
   const postOrder = async (event: any) => {
     event.preventDefault();
-    console.log("clicked");
     const url = "http://localhost:4000/create/ticket";
 
     const TOKEN_KEY = "access_token";
-    const accessToken = localStorage.getItem(TOKEN_KEY);
+    const accessToken = sessionStorage.getItem(TOKEN_KEY);
 
     try {
       const data = await axios.post(
@@ -49,13 +62,24 @@ const Home = () => {
           },
         }
       );
-      if (data.status === 200) {
+      if (data.status === 200 || data.status == 201) {
         console.log(data.data);
+        setToggler(!toggler);
+        setOpen({
+          open: true,
+          type: "success",
+          message: "Ticket has been raised successfully",
+        });
         // setCustomerdata(data.data);
       }
-    } catch (error) {
+    } catch (error: any) {
       // @ts-ignore
-      console.log(error.response.data.error);
+      setOpen({
+        open: true,
+        type: "error",
+        message: error.response.data.message,
+      });
+      // console.log(error.response.data.error);
     }
   };
 
@@ -64,7 +88,7 @@ const Home = () => {
     const fileReader = new FileReader();
     fileReader.readAsDataURL(file!);
     const TOKEN_KEY = "access_token";
-    const accessToken = localStorage.getItem(TOKEN_KEY);
+    const accessToken = sessionStorage.getItem(TOKEN_KEY);
 
     fileReader.onloadend = async () => {
       const data = await axios.post(
@@ -84,104 +108,128 @@ const Home = () => {
   };
 
   useEffect(() => {
-    const userData = JSON.parse(localStorage.getItem("userData") as string);
+    const userData = JSON.parse(sessionStorage.getItem("userData") as string);
     console.log({ userData });
     setCustomerdata(userData);
     console.log("photo", customerdata.photo);
   }, []);
 
   return (
-    <Box sx={{ backgroundColor: "#dde1e7" }}>
+    <Box sx={{}}>
+      <Snackbar
+        open={open.open as boolean}
+        autoHideDuration={6000}
+        onClose={handleClose}
+        anchorOrigin={{ vertical: "top", horizontal: "right" }}
+      >
+        <Alert
+          onClose={handleClose}
+          severity={open.type as AlertColor}
+          sx={{ width: "100%" }}
+        >
+          {open.message}
+        </Alert>
+      </Snackbar>
       <HomeMainBox>
         <Grid
           container
-          mt={7}
           spacing={2}
+          mt={10}
           sx={{
             alignItems: "center",
             height: "500px",
           }}
         >
-          <Grid item xs={12} sm={12} md={6}>
-            <Box
-              sx={{
-                m: "0 0 0 0",
-                display: "flex",
-                alignItems: "center",
-                gap: 4,
-              }}
-            >
-              <Avatar
-                alt="Avatar"
-                src={customerdata.photo}
+          <Grid
+            container
+            justifyContent={"space-between"}
+            alignItems="center"
+            mt={4}
+            paddingX={5}
+          >
+            <Grid item xs={12} sm={12} md={6}>
+              <Box
                 sx={{
-                  width: 120,
-                  height: 120,
-                  border: "solid 5px #fff",
-                  zIndex: "-10px",
-                  boxShadow:
-                    "-5px -15px 9px rgba(255,255,255,0.45), 5px 5px 9px rgba(94,104,121,0.3);",
+                  m: "0 0 0 0",
+                  display: "flex",
+                  alignItems: "center",
+                  gap: 4,
                 }}
-              />
-              <div>
-                <Typography
-                  variant="h4"
-                  fontWeight={"bold"}
+              >
+                <Avatar
+                  alt="Avatar"
+                  src={customerdata.photo}
                   sx={{
-                    display: "flex",
-                    fontFamily: "'Poppins', sans-serif",
+                    width: 80,
+                    height: 80,
+                    border: "solid 5px #fff",
+                    zIndex: "-10px",
+                    boxShadow:
+                      "-5px -15px 9px rgba(255,255,255,0.45), 5px 5px 9px rgba(94,104,121,0.3);",
                   }}
-                >
-                  Hello, {customerdata.firstname} !
-                </Typography>
-                <Grid item xs={12} sx={{ m: "0 0 0 0" }}>
+                />
+                <div>
                   <Typography
-                    variant="h5"
-                    color={"gray"}
+                    variant="h4"
+                    fontWeight={"bold"}
                     sx={{
+                      display: "flex",
                       fontFamily: "'Poppins', sans-serif",
                     }}
                   >
-                    WELCOME BACK TO ZERO WASTE MOVEMENT
+                    Hello, {customerdata.firstname} !
                   </Typography>
-                </Grid>
-              </div>
-            </Box>
-          </Grid>
-          <Grid item xs={12} sm={12} md={6}>
-            <Box>
-              <CardDataView
-                style={{
-                  width: "90%",
-                  alignItems: "center",
-                  padding: 10,
+                  <Grid item xs={12} sx={{ m: "0 0 0 0" }}>
+                    <Typography
+                      variant="subtitle2"
+                      color={"gray"}
+                      sx={{
+                        fontFamily: "'Poppins', sans-serif",
+                      }}
+                    >
+                      Welcome back to{" "}
+                      <span style={{ fontWeight: "bold" }}>
+                        ZERO WASTE MOVEMENT
+                      </span>
+                    </Typography>
+                  </Grid>
+                </div>
+              </Box>
+            </Grid>
+            <Grid item xs={12} md={6} lg={4} mt={2}>
+              <Card
+                elevation={2}
+                sx={{
+                  // backgroundColor: "#4158D0",
+                  // backgroundImage:
+                  //   "linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%)",
+                  backgroundColor: "#4158D0",
+                  backgroundImage:
+                    "linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%)",
                 }}
               >
-                <Lottie
-                  animationData={request}
-                  style={{ height: "15rem", paddingTop: "1rem" }}
-                />
-                <Typography
-                  sx={{
-                    height: "80px",
-                    fontSize: "24px",
-                    fontWeight: "bold",
-                    color: "#fc00ff",
-                  }}
-                >
-                  Make a Request by clicking the button below :
-                </Typography>
-                <Button
-                  variant="contained"
-                  sx={{
-                    width: "fit-content",
-                  }}
-                  onClick={postOrder}
-                >
-                  Request
-                </Button>
-              </CardDataView>
-            </Box>
+                <CardContent sx={{ textAlign: "center" }}>
+                  <Typography variant="h5" textAlign={"center"} color="white">
+                    Raise a ticket for trash collection :
+                  </Typography>
+                  <Button
+                    variant="contained"
+                    sx={{
+                      width: "fit-content",
+                      mt: 2,
+                    }}
+                    size="large"
+                    color="success"
+                    onClick={postOrder}
+                  >
+                    Request
+                  </Button>
+                </CardContent>
+              </Card>
+            </Grid>
+          </Grid>
+          <Grid item xs={12}>
+            <History refresh={toggler} />
           </Grid>
         </Grid>
         {/* <Grid container xs={12} spacing={2} rowGap={2} mt={7}>

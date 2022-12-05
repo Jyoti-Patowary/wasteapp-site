@@ -38,7 +38,7 @@ export default function DataTable() {
     setFilter(!filter);
   };
 
-  const token = localStorage.getItem("access_token");
+  const token = sessionStorage.getItem("access_token");
 
   useEffect(() => {
     fetchData();

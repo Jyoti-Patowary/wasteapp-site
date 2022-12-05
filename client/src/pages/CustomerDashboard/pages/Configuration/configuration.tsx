@@ -39,7 +39,7 @@ const Configuration = () => {
   const [file, setFile] = useState<string | ArrayBuffer | null>("");
 
   //get id
-  const userId = localStorage.getItem("id");
+  const userId = sessionStorage.getItem("id");
 
   const handleFileChange = (fileList: FileList | null) => {
     const file = fileList && fileList[0];

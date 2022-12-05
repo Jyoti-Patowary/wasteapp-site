@@ -67,7 +67,7 @@ const Sidebar: FC = () => {
   };
 
   const handleLogOut = () => {
-    localStorage.removeItem("access_token");
+    sessionStorage.removeItem("access_token");
 
     navigate("/");
   };

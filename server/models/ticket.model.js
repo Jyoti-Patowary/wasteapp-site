@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const { default: ShortUniqueId } = require("short-unique-id");
 
 const ticketSchema = mongoose.Schema(
   {
@@ -18,6 +19,9 @@ const ticketSchema = mongoose.Schema(
       type: Number,
       required: true,
     },
+    ticketNo: {
+      type: String,
+    },
     status: {
       type: String,
       default: "isOpen",
@@ -35,7 +39,7 @@ ticketSchema.pre("find", function () {
 });
 
 ticketSchema.statics.findByRaiserId = async function (id) {
-  const doc = await this.find({ raiser: id }).exec();
+  const doc = await this.find({ raiser: id }).sort({ _id: -1 }).exec();
   return doc;
 };
 

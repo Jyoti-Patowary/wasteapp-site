@@ -45,6 +45,21 @@ const sendAcceptedEmail = async (email, name) => {
   }
 };
 
+const sendCloseEmail = async (email, name) => {
+  sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+
+  try {
+    await sgMail.send({
+      to: email,
+      from: "jpatowary8@gmail.com",
+      subject: "Request Closed",
+      text: `Hi ! ${name}, your ticket for waste collection has been successfully closed .`,
+    });
+  } catch (error) {
+    console.log(error.message);
+  }
+};
+
 module.exports = {
   sendWelcomeEmail,
   sendCancelationEmail,

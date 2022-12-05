@@ -9,10 +9,11 @@ import TableRow from "@mui/material/TableRow";
 import Paper from "@mui/material/Paper";
 import axios from "axios";
 import moment from "moment";
+import Chip from "@mui/material/Chip/Chip";
 
 const StyledTableCell = styled(TableCell)(({ theme }) => ({
   [`&.${tableCellClasses.head}`]: {
-    backgroundColor: theme.palette.common.black,
+    backgroundColor: "dodgerblue",
     color: theme.palette.common.white,
   },
   [`&.${tableCellClasses.body}`]: {
@@ -30,15 +31,15 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-export default function CustomerHistoryData() {
+export default function CustomerHistoryData({ refresh }) {
   const [tableData, setTableData] = useState<any>([]);
   const [ticketTableData, setTicketTableData] = useState<any>([]);
 
-  const token = localStorage.getItem("access_token");
+  const token = sessionStorage.getItem("access_token");
 
   useEffect(() => {
     fetchData();
-  }, []);
+  }, [refresh]);
 
   const fetchData = async () => {
     let res = await axios.get("http://localhost:4000/users", {
@@ -88,16 +89,16 @@ export default function CustomerHistoryData() {
 
   useEffect(() => {
     (async () => {
-      const id = localStorage.getItem("id");
+      const id = sessionStorage.getItem("id");
       ticketDataByUser(id as string);
     })();
-  }, []);
+  }, [refresh]);
   return (
     <TableContainer component={Paper}>
       <Table sx={{ minWidth: 700 }} aria-label="customized table">
         <TableHead>
           <TableRow>
-            <StyledTableCell>Order ID</StyledTableCell>
+            <StyledTableCell>Ticket No</StyledTableCell>
             <StyledTableCell>Status</StyledTableCell>
             <StyledTableCell>Raiser Address</StyledTableCell>
             <StyledTableCell>Created Date</StyledTableCell>
@@ -109,22 +110,30 @@ export default function CustomerHistoryData() {
         </TableHead>
         <TableBody>
           {ticketTableData.map((row) => (
-            <StyledTableRow key={row._id}>
-              <StyledTableCell>{row._id}</StyledTableCell>
-              <StyledTableCell>{row.status}</StyledTableCell>
-              <StyledTableCell>{row.raiser.address}</StyledTableCell>
-              <StyledTableCell>
+            <TableRow key={row._id}>
+              <TableCell>
+                <Chip
+                  label={row.ticketNo}
+                  color={row.status === "isClosed" ? "secondary" : "primary"}
+                  sx={{ fontWeight: "bold", textTransform: "uppercase" }}
+                />
+              </TableCell>
+              <TableCell>{row.status}</TableCell>
+              <TableCell>{row.raiser.address}</TableCell>
+              <TableCell>
                 {moment(row.createdAt).format("DD/MM/YYYY")}
                 {/* {row.createdAt} */}
-              </StyledTableCell>
-              <StyledTableCell>
+              </TableCell>
+              <TableCell>
                 {moment(row.updatedAt).format("DD/MM/YYYY")}
                 {/* {row.updatedAt} */}
-              </StyledTableCell>
-              <StyledTableCell>
-                {row.receiver.firstname + " " + row.receiver.lastname}
-              </StyledTableCell>
-            </StyledTableRow>
+              </TableCell>
+              <TableCell>
+                {row.receiver
+                  ? row.receiver?.firstname + " " + row.receiver?.lastname
+                  : "Unassigned"}
+              </TableCell>
+            </TableRow>
           ))}
         </TableBody>
       </Table>

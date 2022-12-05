@@ -3,14 +3,14 @@ import { Box, styled, Grid, Typography, Card } from "@mui/material";
 import { HistoryMainBox } from "../../customerStyles";
 import CustomerHistoryData from "./customerHistoryData";
 
-const History = () => {
+const History = ({ refresh }) => {
   return (
-    <Box sx={{ backgroundColor: "#dde1e7" }}>
+    <Box sx={{}}>
       <HistoryMainBox>
-        <Grid container spacing={3} mt={7}>
+        <Grid container spacing={3} mt={2}>
           <Grid item xs={12} md={12}>
             <Typography
-              variant="h4"
+              variant="h6"
               fontWeight={"bold"}
               sx={{
                 display: "flex",
@@ -18,14 +18,13 @@ const History = () => {
                 fontFamily: "'Poppins', sans-serif",
               }}
             >
-              Customer History !
+              My Service History !
             </Typography>
           </Grid>
           <Grid container xs={12} md={12}>
             <Card
               sx={{
-                height: "29rem",
-                m: "2rem 2rem",
+                marginY: 2,
                 bgcolor: "#dde1e7",
                 width: "120rem",
                 // p: "5rem",
@@ -34,7 +33,7 @@ const History = () => {
                   "-5px -5px 9px rgba(255,255,255,0.45), 5px 5px 9px rgba(94,104,121,0.3);",
               }}
             >
-              <CustomerHistoryData />
+              <CustomerHistoryData refresh={refresh} />
             </Card>
           </Grid>
         </Grid>

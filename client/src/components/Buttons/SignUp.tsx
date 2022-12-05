@@ -8,6 +8,7 @@ import {
   Modal,
   Grid,
   Divider,
+  Alert,
 } from "@mui/material";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
@@ -63,7 +64,7 @@ interface IFormInputValues {
 }
 
 function getFormValues() {
-  const storedValues = localStorage.getItem("TextField");
+  const storedValues = sessionStorage.getItem("TextField");
   if (!storedValues)
     return {
       firstname: "",
@@ -88,7 +89,7 @@ const SignUp = () => {
   const [selectedValue, setSelectedValue] = useState("customer");
 
   useEffect(() => {
-    localStorage.setItem("TextField", JSON.stringify(values));
+    sessionStorage.setItem("TextField", JSON.stringify(values));
   }, [values]);
 
   const handleFileChange = (fileList: FileList | null) => {
@@ -125,11 +126,12 @@ const SignUp = () => {
     try {
       const res = await axios.post(url, payload);
       console.log(res);
-      if (res.status === 200) {
+      if (res.status === 200 || res.status == 201) {
         console.log(res.data);
         const TOKEN_KEY = "access_token";
-        localStorage.setItem(TOKEN_KEY, res.data.token);
-        localStorage.setItem("id", res.data._id);
+        sessionStorage.setItem(TOKEN_KEY, res.data.token);
+        sessionStorage.setItem("id", res.data._id);
+        setOpen(false);
       }
     } catch (error) {
       // @ts-ignore

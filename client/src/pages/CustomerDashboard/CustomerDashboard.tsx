@@ -13,7 +13,7 @@ const CustomerDashboard = () => {
       <Routes>
         <Route path="" element={<Home />} />
         <Route path="request" element={<Request />} />
-        <Route path="history" element={<History />} />
+        {/* <Route path="history" element={<History />} /> */}
         <Route path="configuration" element={<Configuration />} />
       </Routes>
     </>

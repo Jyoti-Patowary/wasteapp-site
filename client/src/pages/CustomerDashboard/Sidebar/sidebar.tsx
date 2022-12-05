@@ -17,6 +17,7 @@ const Nav = styled.div`
   background-image: linear-gradient(90deg, #00dbde 0%, #fc00ff 100%);
   box-shadow: 5px 5px 9px #ccc;
   position: fixed;
+  z-index: 100;
   width: 100vw;
 `;
 
@@ -57,7 +58,7 @@ const Sidebar: FC = () => {
   const navigate = useNavigate();
 
   const handleLogOut = () => {
-    localStorage.removeItem("access_token");
+    sessionStorage.removeItem("access_token");
 
     navigate("/");
   };
