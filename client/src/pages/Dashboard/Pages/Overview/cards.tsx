@@ -9,7 +9,7 @@ const Main = styled.div`
   margin: 0 1rem;
   display: grid;
   gap: 2rem;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
 `;
 
 const Card = styled.div`

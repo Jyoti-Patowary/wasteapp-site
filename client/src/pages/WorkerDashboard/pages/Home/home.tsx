@@ -7,8 +7,6 @@ import {
   Input,
   Divider,
   Avatar,
-  CardMedia,
-  Card,
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import axios from "axios";
@@ -24,40 +22,49 @@ import {
   ProfileTable,
 } from "../../../CustomerDashboard/customerStyles";
 
+import API from "../../../../apis/index";
+import CircularProgress from "@mui/material/CircularProgress";
+
+const Card = styled.div`
+background-color: white;
+color: black;
+box-shadow:
+-5px -5px 9px rgba(255,255,255,0.45), 5px 5px 9px rgba(94,104,121,0.3);
+display: flex;
+justify-content: space-evenly;
+padding: 1rem;
+height: 4rem;
+display: flex;
+align-items: center
+}
+`;
+
 const Home = () => {
   const [customerdata, setCustomerdata] = useState<any>([]);
   const [updatedAddress, setUpdatedAddress] = useState("");
   const [phoneNumber, setPhoneNumber] = useState<any>("");
 
-  const postOrder = async (event: any) => {
-    event.preventDefault();
-    console.log("clicked");
-    const url = "http://localhost:4000/create/ticket";
+  const [allTicketsCount, setAllTicketsCount] = React.useState<any>(null);
 
-    const TOKEN_KEY = "access_token";
-    const accessToken = localStorage.getItem(TOKEN_KEY);
+  //get id
+  const userId = localStorage.getItem("id");
 
+  const functionSetAllTicketsCount = async () => {
     try {
-      const data = await axios.post(
-        url,
-        {
-          requestedDate: Date.now(),
-        },
-        {
-          headers: {
-            Authorization: `Bearer ${accessToken}`,
-          },
-        }
-      );
-      if (data.status === 200) {
-        console.log(data.data);
-        // setCustomerdata(data.data);
-      }
-    } catch (error) {
-      // @ts-ignore
-      console.log(error.response.data.error);
+      // const res = await updateCustomerData(userId, payload);
+      const url = `/tickets/count/${userId}`;
+      const res = await API.get(url);
+      setAllTicketsCount(res.data);
+      console.log("allTicketsCount ", res.data);
+    } catch (error: any) {
+      console.log("error in form submit ", error);
+      window.alert("Unsuccessfull!");
     }
   };
+
+  useEffect(() => {
+    functionSetAllTicketsCount();
+  }, []);
 
   const postImage = (fileList: FileList | null) => {
     const file = fileList && fileList[0];
@@ -86,7 +93,7 @@ const Home = () => {
   useEffect(() => {
     const userData = JSON.parse(localStorage.getItem("userData") as string);
     console.log({ userData });
-    let role = userData.data.role.toLowerCase();
+    // let role = userData.data.role.toLowerCase();
     setCustomerdata(userData);
     console.log("photo", customerdata.photo);
   }, []);
@@ -96,17 +103,16 @@ const Home = () => {
       <HomeMainBox>
         <Grid
           container
-          mt={7}
-          spacing={2}
-          sx={{
-            alignItems: "center",
-            height: "500px",
-          }}
+          // spacing={0}
+          // sx={{
+          //   alignItems: "center",
+          //   height: "400px",
+          // }}
         >
           <Grid item xs={12} sm={12} md={6}>
             <Box
               sx={{
-                m: "0 0 0 0",
+                m: "8rem 0 0 0",
                 display: "flex",
                 alignItems: "center",
                 gap: 4,
@@ -150,205 +156,52 @@ const Home = () => {
             </Box>
           </Grid>
           <Grid item xs={12} sm={12} md={6}>
-            <Box>
-              <CardDataView
-                style={{
-                  width: "90%",
-                }}
-              >
-                <Lottie
-                  animationData={request}
-                  style={{ height: "15rem", paddingTop: "1rem" }}
-                />
-                <Button
-                  sx={{
-                    height: "80px",
-                    fontSize: "24px",
-                    fontWeight: "bold",
-                    color: "#fc00ff",
-                  }}
-                  onClick={postOrder}
-                >
-                  Make a Request
-                </Button>
-              </CardDataView>
-            </Box>
+            <Box></Box>
           </Grid>
         </Grid>
-        {/* <Grid container xs={12} spacing={2} rowGap={2} mt={7}>
-          <Grid
-            item
-            xs={12}
-            sx={{ m: "0 0 0 0", display: "flex", alignItems: "center", gap: 4 }}
-          >
-            <Avatar
-              alt="Avatar"
-              src={customerdata.photo}
-              sx={{
-                width: 120,
-                height: 120,
-                border: "solid 5px #fff",
-                zIndex: "-10px",
-                boxShadow:
-                  "-5px -15px 9px rgba(255,255,255,0.45), 5px 5px 9px rgba(94,104,121,0.3);",
-              }}
-            />
-            <div>
-              <Typography
-                variant="h4"
-                fontWeight={"bold"}
-                sx={{
-                  display: "flex",
-                  fontFamily: "'Poppins', sans-serif",
-                }}
-              >
-                Hello, {customerdata.firstname} !
-              </Typography>
-              <Grid item xs={12} sx={{ m: "0 0 0 0" }}>
-                <Typography
-                  variant="h5"
-                  color={"gray"}
-                  sx={{
-                    fontFamily: "'Poppins', sans-serif",
-                  }}
-                >
-                  WELCOME BACK TO ZERO WASTE MOVEMENT
+        <Grid container xs={12} md={12} mt={4} spacing={4}>
+          <Grid item xs={12} md={4}>
+            <Card>
+              <Typography>Open Orders : </Typography>
+              {allTicketsCount ? (
+                <Typography>{allTicketsCount?.noOfOpenOrders}</Typography>
+              ) : (
+                <Box sx={{ display: "flex" }}>
+                  <CircularProgress />
+                </Box>
+              )}
+            </Card>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Card>
+              Accepted Orders :
+              {allTicketsCount ? (
+                <Typography>{allTicketsCount?.noOfAcceptedOrders}</Typography>
+              ) : (
+                <Box sx={{ display: "flex" }}>
+                  <CircularProgress />
+                </Box>
+              )}
+            </Card>
+          </Grid>
+          <Grid item xs={12} md={4}>
+            <Card>
+              Total Number of Orders{" : "}
+              {allTicketsCount ? (
+                <Typography>
+                  {allTicketsCount?.noOfOpenOrders +
+                    allTicketsCount?.noOfAcceptedOrders}
                 </Typography>
-              </Grid>
-            </div>
+              ) : (
+                <Box sx={{ display: "flex" }}>
+                  <CircularProgress />
+                </Box>
+              )}
+            </Card>
           </Grid>
-          <Grid item md={12} xs={12} mt={6}>
-            <CardDataView></CardDataView>
-          </Grid>
-          <Grid item md={2} xs={12} mt={6}>
-            <CardDataView>
-              <Lottie
-                animationData={request}
-                style={{ height: "15rem", paddingTop: "1rem" }}
-              />
-              <Button onClick={postOrder} >Make a Request</Button>
-            </CardDataView>
-          </Grid> */}
-        {/* <Grid item md={3} xs={12}>
-            <ProfileTable>
-              <Grid
-                container
-                xs={12}
-                md={12}
-                sx={{ p: "2rem", m: "1rem 0 0 0", color: "gray" }}
-              >
-                <Grid item md={4} xs={12}></Grid>
-                <Grid item md={12} xs={12} sx={{ m: "2rem 0 2rem 0" }}>
-                  <Typography
-                    variant="h5"
-                    color={"gray"}
-                    sx={{
-                      fontWeight: "bold",
-                      boxShadow:
-                        "inset -5px -5px 9px rgba(255,255,255,0.45), inset 5px 5px 9px rgba(94,104,121,0.3);",
-                    }}
-                  >
-                    CONTACT INFORMATION
-                  </Typography>
-                </Grid>
-                <Grid item md={6} xs={6}>
-                  First Name :
-                </Grid>
-                <Grid item md={6} xs={6} sx={{ mb: "1rem" }}>
-                  {customerdata.firstname}
-                </Grid>
-                <Grid item md={6} xs={6}>
-                  Last name :
-                </Grid>
-                <Grid item md={6} xs={6} sx={{ mb: "1rem" }}>
-                  {customerdata.lastname}
-                </Grid>
-                <Grid item md={6} xs={6}>
-                  Email :
-                </Grid>
-                <Grid item md={6} xs={6} sx={{ mb: "1rem" }}>
-                  {customerdata.email}
-                </Grid>
-                <Grid item md={6} xs={6}>
-                  Mobile
-                </Grid>
-                <Grid item md={6} xs={6} sx={{ mb: "1rem" }}>
-                  {customerdata.phoneNumber}
-                </Grid>
-                <Grid item md={6} xs={6}>
-                  Address
-                </Grid>
-                <Grid item md={6} xs={6} sx={{ mb: "1rem" }}>
-                  {customerdata.address}
-                </Grid>
-                <Grid item md={12} xs={6} sx={{ mb: "1rem" }}>
-                  <Button
-                    fullWidth
-                    sx={{
-                      borderRadius: "10px",
-                      mt: "2rem",
-                      bgcolor: "blueviolet",
-                      color: "whitesmoke",
-                    }}
-                  >
-                    Update
-                  </Button>
-                </Grid>
-              </Grid>
-            </ProfileTable>
-          </Grid> */}
-        {/* <Grid item md={4} xs={12}>
-            <CardDataView>Recent Order Placed: </CardDataView>
-          </Grid>
-          <Grid item md={4} xs={12}>
-            <CardDataView>Total Order Placed: </CardDataView>
-          </Grid>
-          <Grid item md={4} xs={12}>
-            <CardDataView>Recent Order Placed: </CardDataView>
-          </Grid> */}
-        {/* </Grid> */}
+        </Grid>
       </HomeMainBox>
     </Box>
-
-    // <Grid container spacing={2}>
-    //   <HomeMainBox>
-    //     <Grid item xs={12}>
-    //
-    //     </Grid>
-    //     <Grid container xs={12} direction="column" columnGap={5}>
-    //       <Grid item xs={6} md={12}>
-    //         <CardDataView>Recent Order Placed: </CardDataView>
-    //       </Grid>
-    //       <Grid item xs={12} columnGap={5}>
-    //         <CardDataView></CardDataView>
-    //       </Grid>
-    //     </Grid>
-    //     {/* <Box>
-    //         <Typography variant="h6" sx={{ display: "flex", mt: "5rem" }}>
-    //           Request for Worker
-    //         </Typography>
-    //         <Box component="form" onSubmit={postOrder}>
-    //           <TextField
-    //             variant="outlined"
-    //             label="address"
-    //             sx={{ m: "2rem" }}
-    //             name="address"
-    //             value={values.address}
-    //             onChange={handleChange}
-    //           />
-    //           <TextField variant="outlined" label="date" />
-    //           <TextField
-    //             variant="outlined"
-    //             label="phoneNumber"
-    //             name="phoneNumber"
-    //             value={values.phoneNumber}
-    //             onChange={handleChange}
-    //           />
-    //           <Button type="submit">Order</Button>
-    //         </Box> */}
-    //     {/* </Box> */}
-    //   </HomeMainBox>
-    // </Grid>
   );
 };
 

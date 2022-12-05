@@ -29,17 +29,24 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-export default function WorkerDataTable() {
+export default function DataTable() {
   const [tableData, setTableData] = useState<any>([]);
+  const [filteredData, setFilteredData] = useState();
+  const [filter, setFilter] = useState(true);
+
+  const handleChange = () => {
+    setFilter(!filter);
+  };
 
   const token = localStorage.getItem("access_token");
 
   useEffect(() => {
     fetchData();
+    // setFilteredData(role==='all'?res:res.filter(dt=>dt.year===year))
   }, []);
 
   const fetchData = async () => {
-    let res = await axios.get("http://localhost:4000/workers", {
+    let res = await axios.get("http://localhost:4000/allcustomers", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -55,8 +62,8 @@ export default function WorkerDataTable() {
             <StyledTableCell>First Name</StyledTableCell>
             <StyledTableCell>Last Name</StyledTableCell>
             <StyledTableCell>Address</StyledTableCell>
-            <StyledTableCell>Email ID</StyledTableCell>
-            <StyledTableCell>PhoneNumber</StyledTableCell>
+            <StyledTableCell>Role</StyledTableCell>
+            <StyledTableCell></StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -66,9 +73,9 @@ export default function WorkerDataTable() {
                 {row.firstname}
               </StyledTableCell>
               <StyledTableCell>{row.lastname}</StyledTableCell>
-              <StyledTableCell>{row.address}</StyledTableCell>
               <StyledTableCell>{row.email}</StyledTableCell>
               <StyledTableCell>{row.phoneNumber}</StyledTableCell>
+              <StyledTableCell>{row.address}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

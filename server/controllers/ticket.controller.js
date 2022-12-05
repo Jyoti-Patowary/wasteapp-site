@@ -109,6 +109,41 @@ const deleteTicket = async (req, res) => {
   }
 };
 
+const getTicketsByUserId = async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log(id);
+    const tickets = await Ticket.findByRaiserId(id);
+    res.send(tickets);
+  } catch (error) {
+    return Promise.reject(new Error(error));
+  }
+};
+
+const getTicketsCount = async (req, res) => {
+  try {
+    const { id } = req.params;
+    console.log(id);
+    const noOfOpenOrders = await Ticket.count({
+      status: "isOpen",
+    });
+
+    const noOfAcceptedOrders = await Ticket.count({
+      raiser: id,
+      status: "isAssigned",
+    });
+
+    const responseToSend = {
+      noOfOpenOrders: noOfOpenOrders,
+      noOfAcceptedOrders: noOfAcceptedOrders,
+    };
+
+    res.send(responseToSend);
+  } catch (error) {
+    return Promise.reject(new Error(error));
+  }
+};
+
 module.exports = {
   getAllTicket,
   getTicket,
@@ -116,4 +151,6 @@ module.exports = {
   deleteTicket,
   postTicket,
   acceptTicket,
+  getTicketsByUserId,
+  getTicketsCount,
 };

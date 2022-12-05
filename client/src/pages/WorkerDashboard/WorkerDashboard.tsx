@@ -11,7 +11,7 @@ const WorkerDashboard = () => {
     <>
       <Sidebar />
       <Routes>
-        <Route path="home" element={<Home />} />
+        <Route path="" element={<Home />} />
         <Route path="request-received" element={<RequestReceived />} />
         <Route path="history" element={<History />} />
         <Route path="configuration" element={<Configuration />} />

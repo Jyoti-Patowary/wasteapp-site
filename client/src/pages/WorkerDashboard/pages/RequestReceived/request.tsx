@@ -3,39 +3,55 @@ import { Button, Box, Grid, Typography } from "@mui/material";
 import axios from "axios";
 import styled from "styled-components";
 import { HistoryMainBox } from "../../../CustomerDashboard/customerStyles";
+import { getCustomers, getTickets } from "../../../../apis/workerDashboard";
 
 const Main = styled.div`
   max-width: 2200px;
   // margin: 5rem 1rem;
   display: grid;
   gap: 2rem;
-  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  grid-template-columns: repeat(auto-fit, minmax(400px, 1fr));
 `;
 
 const Card = styled.div`
   background-color: white;
   color: white;
   padding: 1rem;
-  height: 4rem;
+  // height: 4rem;
   display: flex;
   align-items: center;
   margin-top: 2rem;
 `;
 
+const boxStyle = {
+  border: "2px solid black",
+  borderRadius: 2,
+  margin: "5px",
+  paddingInline: "4px",
+  paddingBlock: "3px",
+  height: "100%",
+  display: "flex",
+  alignItems: "center",
+};
+
 const RequestReceived = () => {
-  const [tickets, setTickets] = React.useState([]);
+  const [tickets, setTickets] = React.useState<any[]>([]);
+  const [customers, setCustomers] = React.useState([]);
 
   const status = async () => {
-    // const TOKEN_KEY = "access_token";
-    // const accessToken = localStorage.getItem(TOKEN_KEY);
+    const [customers, tickets] = await Promise.all([
+      getCustomers(),
+      getTickets(),
+    ]);
 
-    // const dataUrl = "http://localhost:4000/users";
+    setCustomers(customers.data);
+    setTickets(tickets.data);
 
-    const url = "http://localhost:4000/tickets";
+    // const url = "http://localhost:4000/tickets";
 
-    const response = await axios.get(url);
-    console.log(response.data);
-    setTickets(response.data);
+    // const response = await axios.get(url);
+    // console.log(response.data);
+    // setTickets(response.data);
   };
 
   const handleClick = async (id) => {
@@ -78,15 +94,31 @@ const RequestReceived = () => {
           {tickets.map((ticket: any, index) => {
             return (
               <Card key={index}>
-                <Button
-                  sx={{
-                    color: "red",
-                  }}
-                  disabled={!!ticket.receiver}
-                  onClick={() => handleClick(ticket._id)}
-                >
-                  {!!ticket.receiver ? "Accepted" : "Accept"}
-                </Button>
+                <Box sx={boxStyle}>
+                  <Typography sx={{ color: "black" }}>
+                    Customer Name :{" "}
+                    {ticket.raiser.firstname + " " + ticket.raiser.lastname}
+                  </Typography>
+                </Box>
+
+                <Box sx={boxStyle}>
+                  <Typography sx={{ color: "black" }}>
+                    Address : {ticket.raiser.address}
+                  </Typography>
+                </Box>
+
+                <Box sx={boxStyle}>
+                  <Typography sx={{ color: "black" }}>Status</Typography>
+                  <Button
+                    sx={{
+                      color: "red",
+                    }}
+                    disabled={!!ticket.receiver}
+                    onClick={() => handleClick(ticket._id)}
+                  >
+                    {!!ticket.receiver ? "Accepted" : "Accept"}
+                  </Button>
+                </Box>
               </Card>
             );
           })}

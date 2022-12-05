@@ -1,6 +1,6 @@
 import { Box, Button, styled, Typography } from "@mui/material";
 import { FaPhoenixFramework } from "react-icons/fa";
-import { GiThorHammer, GiFrozenBody } from "react-icons/gi";
+import { GiThorHammer, GiFrozenBody, GiPayMoney } from "react-icons/gi";
 import ArrowRightAltIcon from "@mui/icons-material/ArrowRightAlt";
 
 const About = () => {
@@ -71,8 +71,8 @@ const About = () => {
             textAlign: "center",
           }}
         >
-          Everything you need to know when you want to buy, rent or sell - All
-          in one place
+          Zero Waste is all about protecting environment and keeping our
+          neighborhood clean
         </Typography>
       </CustomBox>
       <GuidesBox>
@@ -164,6 +164,36 @@ const About = () => {
               sx={{ fontWeight: "bold", fontSize: "14px", color: "#0689FF" }}
             >
               Discover More
+            </Typography>
+            <ArrowRightAltIcon style={{ color: "#0689FF" }} />
+          </Box>
+        </GuideBox>
+        <GuideBox>
+          <GiPayMoney size={100} color="red" />
+          <Typography
+            variant="body2"
+            sx={{
+              fontWeight: "500",
+              fontSize: "20px",
+              color: "#3B3c45",
+              my: 1,
+            }}
+          >
+            Monthly Payment
+          </Typography>
+          <Box
+            sx={{
+              cursor: "pointer",
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+            }}
+          >
+            <Typography
+              variant="body2"
+              sx={{ fontWeight: "bold", fontSize: "14px", color: "#0689FF" }}
+            >
+              Know More
             </Typography>
             <ArrowRightAltIcon style={{ color: "#0689FF" }} />
           </Box>

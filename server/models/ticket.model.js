@@ -30,8 +30,13 @@ const ticketSchema = mongoose.Schema(
 );
 
 ticketSchema.pre("find", function () {
-  this.populate("raiser", "firstname lastname email address phoneNumber");
+  this.populate("raiser", "_id firstname lastname email address phoneNumber");
   this.populate("receiver", "firstname lastname email address phoneNumber");
 });
+
+ticketSchema.statics.findByRaiserId = async function (id) {
+  const doc = await this.find({ raiser: id }).exec();
+  return doc;
+};
 
 module.exports = mongoose.model("Ticket", ticketSchema);

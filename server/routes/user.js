@@ -24,7 +24,7 @@ router.get("/workers", protect, getAllWorkers);
 
 router.get("/allcustomers", protect, getCustomers);
 
-router.put("/update/user/:id", protect, updateUserProfile);
+router.put("/update/:id", protect, updateUserProfile);
 router.delete("/delete/user/:id", protect, deleteUserProfile);
 router.get("/user/:id", protect, getUser);
 router.post("/user/upload", protect, uploadPhoto);

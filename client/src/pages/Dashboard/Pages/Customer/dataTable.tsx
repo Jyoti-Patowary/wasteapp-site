@@ -54,9 +54,9 @@ export default function CustomizedTables() {
           <TableRow>
             <StyledTableCell>First Name</StyledTableCell>
             <StyledTableCell>Last Name</StyledTableCell>
-            <StyledTableCell align="right">Address</StyledTableCell>
-            <StyledTableCell align="right">Email ID</StyledTableCell>
-            <StyledTableCell align="right">PhoneNumber</StyledTableCell>
+            <StyledTableCell>Email ID</StyledTableCell>
+            <StyledTableCell>Address</StyledTableCell>
+            <StyledTableCell>PhoneNumber</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -66,9 +66,9 @@ export default function CustomizedTables() {
                 {row.firstname}
               </StyledTableCell>
               <StyledTableCell>{row.lastname}</StyledTableCell>
-              <StyledTableCell align="right">{row.email}</StyledTableCell>
-              <StyledTableCell align="right">{row.phoneNumber}</StyledTableCell>
-              <StyledTableCell align="right">{row.address}</StyledTableCell>
+              <StyledTableCell>{row.email}</StyledTableCell>
+              <StyledTableCell>{row.address}</StyledTableCell>
+              <StyledTableCell>{row.phoneNumber}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

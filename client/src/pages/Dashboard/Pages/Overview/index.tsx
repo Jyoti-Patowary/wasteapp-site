@@ -7,6 +7,10 @@ import Cards from "./cards";
 import { Chart } from "./chart";
 import { PieChartOverview } from "./pieChart";
 import { Grid, Typography } from "@mui/material";
+
+// import { Audio } from "react-loader-spinner";
+// import "react-loader-spinner/dist/loader/css/react-spinner-loader.css";
+
 import {
   getCustomers,
   getTickets,
@@ -34,6 +38,7 @@ const Overview = () => {
   const [assignedTickets, setAssignedTickets] = React.useState([]);
   const [customerData, setCustomerData] = React.useState([]);
   const [acceptedTicket, setAcceptedTicket] = React.useState([]);
+  const [loading, setLoading] = React.useState(false);
 
   const getData = async () => {
     try {
@@ -87,7 +92,9 @@ const Overview = () => {
   };
 
   useEffect(() => {
+    setLoading(true);
     getData();
+    setLoading(false);
   }, []);
 
   return (
@@ -95,13 +102,27 @@ const Overview = () => {
       <Main>
         <Heading>DASHBOARD</Heading>
         <Para>WELCOME TO YOUR DASHBOARD</Para>
-        <Cards
-          data={allData}
-          dataTicket={allTicketData}
-          role={workers}
-          assignedOrders={assignedTickets}
-          customersData={customerData}
-        />
+        {loading ? (
+          // <Audio
+          //   height="80"
+          //   width="80"
+          //   radius="9"
+          //   color="green"
+          //   ariaLabel="three-dots-loading"
+          //   wrapperStyle
+          //   wrapperClass
+          // />
+          <h1>loading</h1>
+        ) : (
+          <Cards
+            data={allData}
+            dataTicket={allTicketData}
+            role={workers}
+            assignedOrders={assignedTickets}
+            customersData={customerData}
+          />
+        )}
+
         <Grid container>
           <Grid item xs={12} md={6}></Grid>
           <Grid item xs={12} md={6}>

@@ -1,8 +1,35 @@
 import { styled, Typography } from "@mui/material";
 import { Box, Container } from "@mui/system";
 import { GiTreehouse } from "react-icons/gi";
+import { useState, useEffect } from "react";
+import { getCustomers, getTickets, getWorkers } from "../../../apis/dashboard";
 
 const Services = () => {
+  // const [workers, setWorkers] = useState([]);
+  // const [assignedTickets, setAssignedTickets] = useState([]);
+  // const [customerData, setCustomerData] = useState([]);
+
+  // const getData = async () => {
+  //   try {
+  //     const [workers, tickets, customers] = await Promise.all([
+  //       getWorkers(),
+  //       getTickets(),
+  //       getCustomers(),
+  //     ]);
+
+  //     console.log(workers);
+  //     setWorkers(workers.data);
+
+  //     setAssignedTickets(tickets.data);
+
+  //     setCustomerData(customers.data);
+  //   } catch (error) {}
+  // };
+
+  // useEffect(() => {
+  //   getData();
+  // }, []);
+
   const CustomBox = styled(Box)(({ theme }) => ({
     display: "flex",
     gap: theme.spacing(10),
@@ -104,7 +131,7 @@ const Services = () => {
               alignItems: "center",
             }}
           >
-            <LargeText>00010+</LargeText>
+            {/* <LargeText>0{customerData}+</LargeText> */}
             <SmallText>Customer's Joined</SmallText>
           </Box>
 
@@ -115,7 +142,7 @@ const Services = () => {
               alignItems: "center",
             }}
           >
-            <LargeText>00020+</LargeText>
+            {/* <LargeText>0{assignedTickets}+</LargeText> */}
             <SmallText>Order's Received</SmallText>
           </Box>
 
@@ -126,7 +153,7 @@ const Services = () => {
               alignItems: "center",
             }}
           >
-            <LargeText>00100+</LargeText>
+            {/* <LargeText>0{workers}+</LargeText> */}
             <SmallText>Worker's</SmallText>
           </Box>
         </TextFlexbox>

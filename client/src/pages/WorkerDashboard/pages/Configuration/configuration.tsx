@@ -70,7 +70,7 @@ const Configuration = () => {
                   </Box>
                   <Box sx={{ flex: 1 }}>
                     <Grid container xs={12} spacing={2}>
-                      <Grid item xs={8}>
+                      <Grid item xs={12} md={6}>
                         {" "}
                         <TextField
                           fullWidth

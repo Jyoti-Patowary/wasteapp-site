@@ -29,21 +29,7 @@ const StyledTableRow = styled(TableRow)(({ theme }) => ({
   },
 }));
 
-// function createData(
-//   firstname: string = " ",
-//   lastname: string = " ",
-//   email: string = " ",
-//   phoneNumber: number = 1,
-//   address: string = "1"
-// ) {
-//   return { firstname, lastname, email, phoneNumber, address };
-// }
-
-// const rows = [
-//   createData("Frozen yoghurt", "lastname", "email", 7854556, "address"),
-// ];
-
-export default function OrderDataTable(props) {
+export default function OrderDataTable() {
   const [tableData, setTableData] = useState<any>([]);
 
   const token = localStorage.getItem("access_token");
@@ -53,7 +39,7 @@ export default function OrderDataTable(props) {
   }, []);
 
   const fetchData = async () => {
-    let res = await axios.get("http://localhost:4000/users", {
+    let res = await axios.get("http://localhost:4000/allcustomers", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -61,18 +47,19 @@ export default function OrderDataTable(props) {
     //   console.log("res,...", res.data);
     setTableData(res.data);
   };
-
   return (
     <TableContainer component={Paper}>
-      <Table sx={{ minWidth: 700 }} aria-label="customized table">
+      <Table
+        sx={{ minWidth: 700, maxHeight: 200 }}
+        aria-label="customized table"
+      >
         <TableHead>
           <TableRow>
             <StyledTableCell>First Name</StyledTableCell>
             <StyledTableCell>Last Name</StyledTableCell>
-
-            <StyledTableCell align="right">Address</StyledTableCell>
-            <StyledTableCell align="right">Email ID</StyledTableCell>
-            <StyledTableCell align="right">Phone Number</StyledTableCell>
+            <StyledTableCell>Address</StyledTableCell>
+            <StyledTableCell>Status</StyledTableCell>
+            <StyledTableCell>Accepted By</StyledTableCell>
           </TableRow>
         </TableHead>
         <TableBody>
@@ -82,9 +69,9 @@ export default function OrderDataTable(props) {
                 {row.firstname}
               </StyledTableCell>
               <StyledTableCell>{row.lastname}</StyledTableCell>
-              <StyledTableCell align="right">{row.address}</StyledTableCell>
-              <StyledTableCell align="right">{row.email}</StyledTableCell>
-              <StyledTableCell align="right">{row.phoneNumber}</StyledTableCell>
+              <StyledTableCell>{row.email}</StyledTableCell>
+              <StyledTableCell>{row.phoneNumber}</StyledTableCell>
+              <StyledTableCell>{row.address}</StyledTableCell>
             </StyledTableRow>
           ))}
         </TableBody>

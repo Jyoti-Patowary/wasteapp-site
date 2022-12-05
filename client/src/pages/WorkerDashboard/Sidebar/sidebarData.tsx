@@ -11,10 +11,8 @@ import { SidebarItem } from "./sidebarItem";
 export const SidebarData: SidebarItem[] = [
   {
     title: "Home",
-    path: "/worker-dashboard/home",
+    path: "/worker-dashboard",
     icon: <AiOutlineHome />,
-    iconClosed: <AiFillCaretDown />,
-    iconOpened: <AiFillCaretUp />,
   },
   {
     title: "Request Received",

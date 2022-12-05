@@ -22,7 +22,7 @@ export const HomeMainBox = styled(Box)(({ theme }) => ({
   // display: "flex",
   // flexDirection: "row",
   marginLeft: theme.spacing(5),
-  paddingTop: theme.spacing(5),
+  paddingTop: theme.spacing(1),
   [theme.breakpoints.down("md")]: {
     width: "87.5%",
   },
@@ -85,7 +85,7 @@ export const ProfileTable = styled(Card)(({ theme }) => ({
 
 export const ConfigurationMainBox = styled(Box)(({ theme }) => ({
   width: "96%",
-  height: "100vh",
+  height: "100%",
   //   display: "flex",
   //   flexDirection: "row",
   marginLeft: theme.spacing(5),

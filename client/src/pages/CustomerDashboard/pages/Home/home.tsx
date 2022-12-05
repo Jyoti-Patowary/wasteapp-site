@@ -153,22 +153,32 @@ const Home = () => {
               <CardDataView
                 style={{
                   width: "90%",
+                  alignItems: "center",
+                  padding: 10,
                 }}
               >
                 <Lottie
                   animationData={request}
                   style={{ height: "15rem", paddingTop: "1rem" }}
                 />
-                <Button
+                <Typography
                   sx={{
                     height: "80px",
                     fontSize: "24px",
                     fontWeight: "bold",
                     color: "#fc00ff",
                   }}
+                >
+                  Make a Request by clicking the button below :
+                </Typography>
+                <Button
+                  variant="contained"
+                  sx={{
+                    width: "fit-content",
+                  }}
                   onClick={postOrder}
                 >
-                  Make a Request
+                  Request
                 </Button>
               </CardDataView>
             </Box>

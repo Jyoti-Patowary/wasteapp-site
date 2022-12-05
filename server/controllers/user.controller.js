@@ -3,6 +3,7 @@ const asyncHandler = require("express-async-handler");
 const User = require("../models/user.model");
 const generateToken = require("../utility/token");
 const { sendWelcomeEmail } = require("../config/emailAccount");
+const mongoose = require("mongoose");
 
 const authUser = asyncHandler(async (req, res) => {
   const { email, password } = req.body;
@@ -142,9 +143,10 @@ const getCustomers = async (req, res) => {
 };
 
 const updateUserProfile = asyncHandler(async (req, res) => {
+  console.log("user update ", req.body);
   try {
-    let = await User.findOneAndUpdate(
-      { _id: req.user._id },
+    let updatedUser = await User.findOneAndUpdate(
+      { _id: new mongoose.Types.ObjectId(req.user._id) },
       {
         $set: {
           ...req.body,
@@ -161,8 +163,9 @@ const updateUserProfile = asyncHandler(async (req, res) => {
       token: generateToken(updatedUser._id),
     });
   } catch (err) {
-    res.status(404);
-    throw new Error("User Update failed");
+    // res.status(404).send(err);
+    // throw new Error("User Update failed", err);
+    return Promise.reject(new Error(err));
   }
 });
 
