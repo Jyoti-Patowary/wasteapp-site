@@ -15,12 +15,7 @@ import { GiPhotoCamera } from "react-icons/gi";
 import styled from "styled-components";
 import Lottie from "lottie-react";
 import request from "../../../../LottieFiles/Request.json";
-import {
-  CardDataView,
-  HomeMainBox,
-  ProfileCard,
-  ProfileTable,
-} from "../../../CustomerDashboard/customerStyles";
+import { HomeMainBox } from "../../../CustomerDashboard/customerStyles";
 
 import API from "../../../../apis/index";
 import CircularProgress from "@mui/material/CircularProgress";
@@ -51,7 +46,6 @@ const Home = () => {
 
   const functionSetAllTicketsCount = async () => {
     try {
-      // const res = await updateCustomerData(userId, payload);
       const url = `/tickets/count/${userId}`;
       const res = await API.get(url);
       setAllTicketsCount(res.data);
@@ -75,7 +69,7 @@ const Home = () => {
 
     fileReader.onloadend = async () => {
       const data = await axios.post(
-        "https://zero-waste-0yjw.onrender.com//user/upload",
+        "https://zero-waste-0yjw.onrender.com/user/upload",
         {
           photo: fileReader.result,
         },

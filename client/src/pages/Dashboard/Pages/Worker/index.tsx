@@ -1,8 +1,5 @@
-import React from "react";
 import styled from "styled-components";
-// import CustomerDataTable from "./dataTable";
-import { Box, Grid, Typography } from "@mui/material";
-// import CustomizedTables from "./dataTable";
+import { Grid, Typography } from "@mui/material";
 import WorkerDataTable from "./dataTableWorker";
 
 const Main = styled.div`
