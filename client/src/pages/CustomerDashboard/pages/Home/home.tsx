@@ -45,7 +45,7 @@ const Home = () => {
 
   const postOrder = async (event: any) => {
     event.preventDefault();
-    const url = "http://localhost:4000/create/ticket";
+    const url = "https://zero-waste-0yjw.onrender.com//create/ticket";
 
     const TOKEN_KEY = "access_token";
     const accessToken = sessionStorage.getItem(TOKEN_KEY);
@@ -92,7 +92,7 @@ const Home = () => {
 
     fileReader.onloadend = async () => {
       const data = await axios.post(
-        "http://localhost:4000/user/upload",
+        "https://zero-waste-0yjw.onrender.com//user/upload",
         {
           photo: fileReader.result,
         },

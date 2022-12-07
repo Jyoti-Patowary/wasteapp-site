@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const API = axios.create({
-  baseURL: "http://localhost:4000",
+  baseURL: "https://zero-waste-0yjw.onrender.com/",
 });
 
 API.interceptors.request.use((config) => {

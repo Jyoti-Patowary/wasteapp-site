@@ -28,7 +28,7 @@ export const AdminLogin = () => {
     };
 
     try {
-      const url = "http://localhost:4000/login/user";
+      const url = "https://zero-waste-0yjw.onrender.com//login/user";
       const res = await axios.post(url, payload);
       console.log(res);
       if (res.status === 200) {

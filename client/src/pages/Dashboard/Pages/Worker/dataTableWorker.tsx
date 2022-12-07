@@ -39,7 +39,7 @@ export default function WorkerDataTable() {
   }, []);
 
   const fetchData = async () => {
-    let res = await axios.get("http://localhost:4000/workers", {
+    let res = await axios.get("https://zero-waste-0yjw.onrender.com//workers", {
       headers: {
         Authorization: `Bearer ${token}`,
       },

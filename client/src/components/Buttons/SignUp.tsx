@@ -111,7 +111,7 @@ const SignUp = () => {
     const { firstname, lastname, email, password, phoneNumber, address } =
       values;
 
-    const url = "http://localhost:4000/register/user";
+    const url = "https://zero-waste-0yjw.onrender.com//register/user";
     const payload = {
       firstname,
       lastname,

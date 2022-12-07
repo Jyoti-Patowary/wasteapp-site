@@ -46,11 +46,14 @@ export default function DataTable() {
   }, []);
 
   const fetchData = async () => {
-    let res = await axios.get("http://localhost:4000/allcustomers", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    let res = await axios.get(
+      "https://zero-waste-0yjw.onrender.com//allcustomers",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     //   console.log("res,...", res.data);
     setTableData(res.data);
   };

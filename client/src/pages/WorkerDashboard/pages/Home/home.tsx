@@ -75,7 +75,7 @@ const Home = () => {
 
     fileReader.onloadend = async () => {
       const data = await axios.post(
-        "http://localhost:4000/user/upload",
+        "https://zero-waste-0yjw.onrender.com//user/upload",
         {
           photo: fileReader.result,
         },

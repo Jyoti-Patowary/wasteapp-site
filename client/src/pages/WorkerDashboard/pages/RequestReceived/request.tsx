@@ -57,7 +57,7 @@ const RequestReceived = () => {
   };
 
   const handleClick = async (id, action = "accepted") => {
-    const url = `http://localhost:4000/ticket/${action}/${id}`;
+    const url = `https://zero-waste-0yjw.onrender.com//ticket/${action}/${id}`;
 
     const acceptResponse = await axios.post(url, null, {
       headers: {

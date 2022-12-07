@@ -24,7 +24,7 @@ const History = () => {
   const [tickets, setTickets] = React.useState([]);
 
   const status = async () => {
-    const url = "http://localhost:4000/tickets";
+    const url = "https://zero-waste-0yjw.onrender.com//tickets";
 
     const response = await axios.get(url);
     console.log(response.data);
@@ -32,7 +32,7 @@ const History = () => {
   };
 
   const handleClick = async (id) => {
-    const accept = `http://localhost:4000/ticket/accepted/${id}`;
+    const accept = `https://zero-waste-0yjw.onrender.com//ticket/accepted/${id}`;
 
     const acceptResponse = await axios.post(accept, null, {
       headers: {

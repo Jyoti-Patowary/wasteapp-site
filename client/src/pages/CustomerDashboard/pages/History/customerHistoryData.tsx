@@ -42,7 +42,7 @@ export default function CustomerHistoryData({ refresh }) {
   }, [refresh]);
 
   const fetchData = async () => {
-    let res = await axios.get("http://localhost:4000/users", {
+    let res = await axios.get("https://zero-waste-0yjw.onrender.com//users", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -52,18 +52,23 @@ export default function CustomerHistoryData({ refresh }) {
   };
 
   const ticketData = async () => {
-    let ticketD = await axios.get("http://localhost:4000/tickets", {
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    let ticketD = await axios.get(
+      "https://zero-waste-0yjw.onrender.com//tickets",
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     setTicketTableData(ticketD.data);
     console.log(ticketTableData);
   };
 
   const ticketDataByUser = async (id: string) => {
     try {
-      let tickets = await axios.get(`http://localhost:4000/tickets/user/${id}`);
+      let tickets = await axios.get(
+        `https://zero-waste-0yjw.onrender.com//tickets/user/${id}`
+      );
       setTicketTableData(tickets.data);
     } catch (error) {}
   };
