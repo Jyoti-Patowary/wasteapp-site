@@ -99,16 +99,9 @@ const Home = () => {
   }, []);
 
   return (
-    <Box sx={{ backgroundColor: "#dde1e7" }}>
+    <Box sx={{ backgroundColor: "#dde1e7", height: "100%" }}>
       <HomeMainBox>
-        <Grid
-          container
-          // spacing={0}
-          // sx={{
-          //   alignItems: "center",
-          //   height: "400px",
-          // }}
-        >
+        <Grid container>
           <Grid item xs={12} sm={12} md={6}>
             <Box
               sx={{

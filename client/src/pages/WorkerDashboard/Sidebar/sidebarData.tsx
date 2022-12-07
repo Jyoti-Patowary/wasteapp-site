@@ -19,11 +19,11 @@ export const SidebarData: SidebarItem[] = [
     path: "/worker-dashboard/request-received",
     icon: <FaOpencart />,
   },
-  {
-    title: "History",
-    path: "/worker-dashboard/history",
-    icon: <AiOutlineHistory />,
-  },
+  // {
+  //   title: "History",
+  //   path: "/worker-dashboard/history",
+  //   icon: <AiOutlineHistory />,
+  // },
   {
     title: "Configurations",
     path: "/worker-dashboard/configuration",

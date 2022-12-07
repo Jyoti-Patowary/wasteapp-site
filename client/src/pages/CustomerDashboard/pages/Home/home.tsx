@@ -45,7 +45,7 @@ const Home = () => {
 
   const postOrder = async (event: any) => {
     event.preventDefault();
-    const url = "https://zero-waste-0yjw.onrender.com//create/ticket";
+    const url = "https://zero-waste-0yjw.onrender.com/create/ticket";
 
     const TOKEN_KEY = "access_token";
     const accessToken = sessionStorage.getItem(TOKEN_KEY);
@@ -92,7 +92,7 @@ const Home = () => {
 
     fileReader.onloadend = async () => {
       const data = await axios.post(
-        "https://zero-waste-0yjw.onrender.com//user/upload",
+        "https://zero-waste-0yjw.onrender.com/user/upload",
         {
           photo: fileReader.result,
         },
@@ -200,9 +200,6 @@ const Home = () => {
               <Card
                 elevation={2}
                 sx={{
-                  // backgroundColor: "#4158D0",
-                  // backgroundImage:
-                  //   "linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%)",
                   backgroundColor: "#4158D0",
                   backgroundImage:
                     "linear-gradient(43deg, #4158D0 0%, #C850C0 46%, #FFCC70 100%)",

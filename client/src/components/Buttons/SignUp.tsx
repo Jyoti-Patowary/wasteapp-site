@@ -22,35 +22,20 @@ import FormLabel from "@mui/material/FormLabel";
 const style = {
   position: "absolute",
   top: "50%",
-
   left: "50%",
-  // ml: "auto",
-  // mr: "auto",
   transform: "translate(-50%, -50%)",
   margin: "auto",
-  // marginRight:""
-  // width: {
-  //   xl: "60%",
-  //   xs: "30%",
-  // },
   width: {
     xs: "80%",
     xl: "35%",
   },
-
   overflow: "scroll",
   overflowX: "clip",
   height: "80%",
   bgcolor: "background.paper",
-  // border: "2px solid #000",
   boxShadow: 24,
-  // m: "0 10px",
   p: 4,
   borderRadius: "10px",
-
-  // "@media max-width(480px)": {
-  //   padding: "5px",
-  // },
 };
 
 interface IFormInputValues {
@@ -111,7 +96,7 @@ const SignUp = () => {
     const { firstname, lastname, email, password, phoneNumber, address } =
       values;
 
-    const url = "https://zero-waste-0yjw.onrender.com//register/user";
+    const url = "https://zero-waste-0yjw.onrender.com/register/user";
     const payload = {
       firstname,
       lastname,
@@ -315,6 +300,9 @@ const SignUp = () => {
                   mt: "2rem",
                   bgcolor: "blueviolet",
                   color: "whitesmoke",
+                  "&:hover": {
+                    bgcolor: "blue",
+                  },
                 }}
                 onClick={() => handleSubmit()}
               >

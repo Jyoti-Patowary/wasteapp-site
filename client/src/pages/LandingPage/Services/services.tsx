@@ -116,9 +116,11 @@ const Services = () => {
                 lineHeight: "27px",
               }}
             >
-              When you own a home, you commit to living in one location for a
-              period of time. We are here to ensure that this will be a
-              memorable experience for you.
+              “The Earth is what we all have in common.” “Time spent among trees
+              is never time wasted.” “One of the first conditions of happiness
+              is that the link between man and nature shall not be broken.” “The
+              environment is where we all meet; where we all have a mutual
+              interest; it is the one thing all of us share.
             </Typography>
           </Box>
         </CustomBox>
@@ -132,7 +134,7 @@ const Services = () => {
             }}
           >
             {/* <LargeText>0{customerData}+</LargeText> */}
-            <SmallText>Customer's Joined</SmallText>
+            {/* <SmallText>Customer's Joined</SmallText> */}
           </Box>
 
           <Box
@@ -143,7 +145,7 @@ const Services = () => {
             }}
           >
             {/* <LargeText>0{assignedTickets}+</LargeText> */}
-            <SmallText>Order's Received</SmallText>
+            {/* <SmallText>Order's Received</SmallText> */}
           </Box>
 
           <Box
@@ -154,7 +156,7 @@ const Services = () => {
             }}
           >
             {/* <LargeText>0{workers}+</LargeText> */}
-            <SmallText>Worker's</SmallText>
+            {/* <SmallText>Worker's</SmallText> */}
           </Box>
         </TextFlexbox>
       </Container>

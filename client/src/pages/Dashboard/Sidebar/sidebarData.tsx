@@ -28,11 +28,11 @@ export const SidebarData: SidebarItem[] = [
       },
     ],
   },
-  {
-    title: "Orders",
-    path: "/admin-dashboard/order",
-    icon: <FaOpencart />,
-  },
+  // {
+  //   title: "Orders",
+  //   path: "/admin-dashboard/order",
+  //   icon: <FaOpencart />,
+  // },
   // {
   //   title: "Assign",
   //   path: "/admin-dashboard/assign",
@@ -43,9 +43,9 @@ export const SidebarData: SidebarItem[] = [
   //   path: "/admin-dashboard/history",
   //   icon: <AiOutlineHistory />,
   // },
-  {
-    title: "Configurations",
-    path: "/admin-dashboard/configurations",
-    icon: <FaCog />,
-  },
+  // {
+  //   title: "Configurations",
+  //   path: "/admin-dashboard/configurations",
+  //   icon: <FaCog />,
+  // },
 ];

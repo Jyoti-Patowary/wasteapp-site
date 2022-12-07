@@ -4,17 +4,22 @@ import Modal from "@mui/material/Modal";
 import { AdminLogin } from "../UsersLogin/adminLogin";
 
 const style = {
-  position: "absolute" as "absolute",
+  position: "absolute",
   top: "50%",
   left: "50%",
   transform: "translate(-50%, -50%)",
-  width: 400,
-  // height: 400,
+  margin: "auto",
+  width: {
+    xs: "80%",
+    xl: "35%",
+  },
+  overflow: "scroll",
+  overflowX: "clip",
+  height: "50%",
   bgcolor: "background.paper",
-  border: "2px solid #000",
-  borderRadius: "10px",
   boxShadow: 24,
   p: 4,
+  borderRadius: "10px",
 };
 
 export default function LoginModal() {
