@@ -19,7 +19,7 @@ const { protect } = require("../middleware/auth.middleware");
 router.post("/register/user", registerUser);
 router.post("/login/user", authUser);
 router.get("/allusers", getAllUsersData);
-router.get("/workers", protect, getAllWorkers);
+router.get("/workers", getAllWorkers);
 // router.get("/customers", protect, getAllCustomers);
 
 router.get("/allcustomers", protect, getCustomers);
